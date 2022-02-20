@@ -10,7 +10,8 @@ def globe_vis(location_df):
     1) Slider for time
     2) Fix empty areas
     3) Fix color scheme
-    4) Fic boundary of earth
+    4) Reduce size of slider and place on the side of the visualization
+    5) Fix boundary of earth
     '''
     countries = alt.topo_feature(data.world_110m.url, 'countries')
 
