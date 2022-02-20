@@ -4,6 +4,14 @@ import altair as alt
 from vega_datasets import data
 
 def globe_vis(location_df):
+
+    '''
+    # TO DO:
+    1) Slider for time
+    2) Fix empty areas
+    3) Fix color scheme
+    4) Fic boundary of earth
+    '''
     countries = alt.topo_feature(data.world_110m.url, 'countries')
 
     rotation_degree_x = st.slider('X axis', -180, 180, 0, help="Slide over to rotate left to right")
