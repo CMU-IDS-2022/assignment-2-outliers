@@ -28,4 +28,4 @@ chart = alt.Chart(df).mark_point().encode(
 
 st.write(chart)
 
-st.markdown("This project was created by Student1 and Student2 for the [Interactive Data Science](https://dig.cmu.edu/ids2022) course at [Carnegie Mellon University](https://www.cmu.edu).")
+st.markdown("This project was created by Bharani Ujjaini Kempaiah and Ruben John Mampilli for the [Interactive Data Science](https://dig.cmu.edu/ids2022) course at [Carnegie Mellon University](https://www.cmu.edu).")
