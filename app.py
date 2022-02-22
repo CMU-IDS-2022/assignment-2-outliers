@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 from vega_datasets import data
 
-def globe_vis(location_df):
+def globe_vis(df_geography, df_index, df_cases, countries):
 
     '''
     # TO DO:
@@ -13,6 +13,21 @@ def globe_vis(location_df):
     4) Reduce size of slider and place on the side of the visualization
     5) Fix boundary of earth
     '''
+
+    location_df = df_index.join(df_geography, how="inner")
+    location_df = location_df.join(df_cases, how="left")
+
+    # Reset index
+    location_df.reset_index(inplace=True)
+
+    # Getting rid of subregion fields
+    location_df = location_df[location_df['location_key'].str.len() == 2]
+    location_df = location_df.astype({'country_name': 'string'})
+
+    location_df = location_df[location_df['country_name'].isin(countries)]
+    location_df["id"] = location_df["country_name"].map(
+        lambda x: country_info[country_info["name"] == x]["numericCode"].values[0])
+
     countries = alt.topo_feature(data.world_110m.url, 'countries')
 
     rotation_degree_x = st.slider('X axis', -180, 180, 0, help="Slide over to rotate left to right")
@@ -45,7 +60,7 @@ if __name__ =="__main__":
     df_geography = df_geography[["location_key", "latitude", "longitude"]]
 
     df_cases = pd.read_csv("data/epidemiology.csv")
-    df_cases = df_cases[["date", "location_key", "cumulative_confirmed", "cumulative_deceased"]]
+    df_cases = df_cases[["date", "location_key", "cumulative_confirmed", "cumulative_deceased", "new_confirmed"]]
 
     country_info = pd.read_json('data/all_countries.json')
     countries = list(country_info.name)
@@ -56,20 +71,6 @@ if __name__ =="__main__":
     df_index.set_index("location_key", inplace=True)
     df_cases.set_index("location_key", inplace=True)
     # Perform inner join to get latitude and longitude details for country
-    location_df = df_index.join(df_geography, how="inner")
-    location_df = location_df.join(df_cases, how="left")
-
-    # Reset index
-    location_df.reset_index(inplace=True)
-
-    # Getting rid of subregion fields
-    location_df = location_df[location_df['location_key'].str.len() == 2]
-    location_df = location_df.astype({'country_name': 'string'})
-
-    location_df = location_df[location_df['country_name'].isin(countries)]
-    location_df["id"] = location_df["country_name"].map(
-        lambda x: country_info[country_info["name"] == x]["numericCode"].values[0])
-
-    globe = globe_vis(location_df)
+    globe = globe_vis(df_geography, df_index, df_cases, countries)
     st.write(globe)
 
