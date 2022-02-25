@@ -390,7 +390,13 @@ if __name__ =="__main__":
     # Plot the gender-age connected charts
     scatter_plot_data, bar_chart_data = read_gender_age_files(df_cases)
     gender_age_connected_vis(scatter_plot_data, bar_chart_data)
-
+    st.write("The first thing we notice is that there has almost equal number of males and females that have contracted"
+             "the infection throughout the season. Hence, from this we can conclude that the Coronavirus affects people"
+             "irrespective of their gender. By sliding a small window through time and observing the chart at the bottom, "
+             "we can see that initially the elderly have a higher number of cases and with time, we see that the younger 20-29 age groups"
+             "are starting to contract the infection more. This could be attributed to the fact that the elderly were the first ones"
+             "to get vaccinated and hence they gained improved protection. So this could be a reason why the younger started to"
+             "fall sick at later times")
     # Plot economy
     df_economy = read_files_economy(df_cases)
     economy_vis(df_economy)
