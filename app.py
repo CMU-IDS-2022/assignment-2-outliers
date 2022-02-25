@@ -6,8 +6,6 @@ from vega_datasets import data
 from datetime import datetime, timedelta
 from PIL import Image
 
-corona_virus = Image.open('data/coronavirus.jpeg')
-
 data_url = "https://goo.gle/covid-19-open-data"
 wikipedia_url = "https://en.wikipedia.org/wiki/COVID-19_pandemic"
 @st.cache
@@ -240,7 +238,7 @@ def pie_radix(df):
 
     radix_chart = base.mark_arc(innerRadius=20, stroke="#fff")
 
-    pie_slice, radix_slice = st.columns([3, 1])
+    pie_slice, radix_slice = st.columns([1, 1])
     pie_slice.write(pie_chart)
     radix_slice.write(radix_chart)
 
@@ -326,12 +324,7 @@ def mobility_vis(df_mobility):
 
 if __name__ =="__main__":
 
-    # st.title("COVID-19 Coronavirus Data Dashboard")
-    col1, mid, col2 = st.columns([20, 1, 10])
-    with col1:
-        st.title('COVID-19 Coronavirus Data Dashboard')
-    # with col2:
-        # st.image(corona_virus, caption='Coronavirus')
+    st.title("COVID-19 Coronavirus Data Dashboard")
 
     st.markdown("Through this dashboard we explore [The Google Health COVID-19 Open Data](%s) regarding the onset and the spread of the COVID-19 Coronavirus"  % data_url)
 
@@ -376,10 +369,24 @@ if __name__ =="__main__":
              "infectious and dangerous than the earlier ones. On observing the vaccination graph and ICU admitted patients graph, "
              "we see that the number of ICU admitted patients has dropped a lot. This could be attributed to the effect of "
              "vaccinations in preventing the infection from causing serious conditions. This evidence supports the widely "
-             "acknowledged claim that vaccines are effective and can  help prevent serious illness")
+             "acknowledged claim that vaccines are effective and can  help prevent serious illness. Another point to note is that"
+             "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any"
+             "singnificant increase. This further strengthens the point that vaccinations has helped in preventing serious"
+             "illness and death due to COVID-19 Coronavirus. Now that we have seen how the trend has varied in time, "
+             "we might now want to know whether there is any difference in number of cases across gender and age-group?")
+
+    st.header('How has COVID-19 affected across Genders and Age Groups?')
     # Plot the pie chart and radix chart
     pie_radix(df_cases)
 
+    st.write("It appears to be that the Coronavirus has affected the males and Females equally. However, on looking at the numbers, "
+             "in fact, there are ~ 3M more Females that were infected as compared to Males. "
+             "On the right, we see that the Age Group of 20-29 were most affected alongside the middle aged people of 30-60. "
+             "The elderly and children have been comparitively less affected. However, it is worth noting that there have been"
+             "cases of children under 10 years of age also testing positive. It might be interesting to see whether through"
+             "the course of the two years there has been a change in the Age Groups that have been getting the infection.")
+
+    st.header("How has the number of cases varied across Age Groups through the pandemic?")
     # Plot the gender-age connected charts
     scatter_plot_data, bar_chart_data = read_gender_age_files(df_cases)
     gender_age_connected_vis(scatter_plot_data, bar_chart_data)
