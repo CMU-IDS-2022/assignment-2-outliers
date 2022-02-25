@@ -1,19 +1,25 @@
 import pandas as pd
 
-countries = ['CR', 'TM', 'NC', 'RO', 'TO', 'HK', 'SS', 'IM', 'MX', 'UA', 'SA', 'TN', 'BG', 'LB',
-             'HU', 'DE', 'LT', 'US', 'TG', 'FI', 'MQ', 'IQ', 'NP', 'NR', 'TH', 'TC', 'EH', 'FR', 'AS', 'IS',
-             'UG', 'VU', 'NZ', 'TV', 'ZM', 'ES', 'IN', 'MV', 'TK', 'GM', 'SR', 'KG', 'PE', 'IL', 'YE', 'AU',
-             'ML', 'TW', 'BT', 'BB', 'CN', 'EE', 'HT', 'GH', 'GQ', 'KE', 'MM', 'BF', 'NL', 'TJ', 'NU', 'AR',
-             'PK', 'PR', 'KI', 'MY', 'FO', 'AG', 'SV', 'LU', 'NI', 'DK', 'LC', 'BZ', 'TF', 'CK', 'SD', 'LR',
-             'BE', 'GY', 'HR', 'CF', 'BR', 'GW', 'CA', 'AO', 'CU', 'MS', 'GL', 'CO', 'KM', 'MC', 'PW', 'KZ',
-             'ZA', 'KH', 'SB', 'CL', 'DJ', 'AD', 'SM', 'WS', 'BH', 'GE', 'EC', 'GS', 'NG', 'MW', 'ET', 'KN',
-             'CH', 'DO', 'ME', 'TD', 'GU', 'AT', 'GF', 'AI', 'IT', 'JE', 'UM', 'PF', 'YT', 'AZ', 'BY', 'PL',
-             'JO', 'PY', 'JP', 'MA', 'SE', 'UZ', 'SL', 'BD', 'AF', 'CW', 'GT', 'SG', 'EG', 'ZW', 'CY', 'PT',
-             'JM', 'CZ', 'ID', 'KW', 'MT', 'PG', 'NE', 'SK', 'TT', 'GR', 'OM', 'GG', 'DM', 'MG', 'MU', 'RE',
-             'ER', 'IO', 'LK', 'GD', 'LY', 'LV', 'SN', 'LS', 'BS', 'BI', 'MZ', 'AW', 'QA', 'SO', 'PA', 'BM',
-             'AE', 'BA', 'GA', 'MP', 'HM', 'WF', 'LI', 'HN', 'GI', 'DZ', 'MN', 'VC', 'NF', 'SI', 'BJ', 'MR',
-             'TR', 'KY', 'AL', 'IE', 'SJ', 'CX', 'MH', 'SZ', 'NO', 'RS', 'AQ', 'SC', 'AM', 'CM', 'FJ', 'BV',
-             'UY', 'RW', 'BW', 'GN', 'PH']
+
+countries = ['TH', 'CI', 'FR', 'GS', 'GY', 'LK', 'CG', 'CO', 'SG', 'ZM', 'VN', 'CM', 'AU',
+             'ML', 'VC', 'QA', 'LB', 'BM', 'SI', 'CR', 'BV', 'BT', 'FK', 'BY', 'KY', 'RU',
+             'SZ', 'MY', 'PL', 'WF', 'EC', 'IM', 'JE', 'WS', 'BD', 'TF', 'MS', 'FI', 'AL',
+             'NI', 'UG', 'MX', 'AS', 'CW', 'IL', 'GW', 'ME', 'JP', 'BF', 'ER', 'LS', 'AR',
+             'LT', 'MK', 'SM', 'AQ', 'KE', 'TO', 'BN', 'SD', 'RE', 'HT', 'FJ', 'PN', 'SJ',
+             'SL', 'TL', 'MW', 'BE', 'BZ', 'LC', 'SS', 'SY', 'MQ', 'CZ', 'UA', 'GH', 'SX',
+             'TW', 'AE', 'BW', 'VU', 'DO', 'AG', 'KP', 'YT', 'NL', 'SB', 'CU', 'JM', 'BQ',
+             'MN', 'EH', 'GI', 'KZ', 'AM', 'RS', 'CF', 'AF', 'PY', 'GB', 'BI', 'ST', 'EG',
+             'CX', 'GT', 'CV', 'AD', 'IE', 'XK', 'MD', 'MU', 'VE', 'KM', 'DZ', 'RW', 'US',
+             'ET', 'NP', 'YE', 'UY', 'MA', 'MG', 'BR', 'SH', 'MT', 'DM', 'HN', 'LY', 'ID',
+             'LA', 'IR', 'MM', 'HU', 'NC', 'PK', 'VG', 'GF', 'GE', 'GN', 'ES', 'HM', 'SC',
+             'SN', 'FM', 'IQ', 'NF', 'RO', 'ZA', 'KW', 'BA', 'AN', 'BJ', 'MZ', 'TK', 'MP',
+             'MO', 'IT', 'DE', 'NE', 'NU', 'LU', 'IO', 'TN', 'TT', 'AI', 'SV', 'BG', 'PE',
+             'SK', 'PG', 'NR', 'PW', 'AW', 'TD', 'AT', 'KI', 'IN', 'TG', 'UZ', 'VA', 'GR',
+             'KH', 'TV', 'TZ', 'FO', 'GL', 'AZ', 'KG', 'CN', 'PH', 'JO', 'KN', 'CC', 'TJ',
+             'PR', 'TC', 'ZW', 'LV', 'SO', 'DJ', 'CH', 'GG', 'PA', 'TR', 'MC', 'MV', 'AO',
+             'CY', 'SE', 'NG', 'OM', 'CL', 'BS', 'BH', 'HR', 'PS', 'DK', 'LI', 'BB', 'MR',
+             'PF', 'GM', 'HK', 'SA', 'GD', 'CA', 'CD', 'GA', 'LR', 'CK', 'MH', 'SR', 'GQ',
+             'TM', 'VI', 'KR', 'BO', 'EE', 'NO', 'IS', 'NZ', 'UM', 'PT', 'GU']
 
 df_new_cases = pd.DataFrame()
 for country in countries:
