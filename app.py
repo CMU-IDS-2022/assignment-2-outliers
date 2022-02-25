@@ -373,7 +373,10 @@ if __name__ =="__main__":
              "While the scale of the deaths is much lower compared to daily cases, we can still "
              "see similar spike patterns in death as the daily cases. This indicates that the "
              "3 periods that are present could indicate periods of appearance of new variants that are more"
-             "infectious and dangerous than the earlier ones. On observing the vaccination")
+             "infectious and dangerous than the earlier ones. On observing the vaccination graph and ICU admitted patients graph, "
+             "we see that the number of ICU admitted patients has dropped a lot. This could be attributed to the effect of "
+             "vaccinations in preventing the infection from causing serious conditions. This evidence supports the widely "
+             "acknowledged claim that vaccines are effective and can  help prevent serious illness")
     # Plot the pie chart and radix chart
     pie_radix(df_cases)
 
