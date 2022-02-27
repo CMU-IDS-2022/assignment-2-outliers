@@ -4,7 +4,6 @@ import pandas as pd
 import altair as alt
 from vega_datasets import data
 from datetime import datetime, timedelta
-from PIL import Image
 
 data_url = "https://goo.gle/covid-19-open-data"
 wikipedia_url = "https://en.wikipedia.org/wiki/COVID-19_pandemic"
