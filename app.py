@@ -164,19 +164,17 @@ def multiselect_vis(df):
                      "Daily deceased": "new_deceased",
                      "Daily tested": "new_tested",
                      "Daily hospitalized": "new_hospitalized_patients",
-                     "Daily vaccinated": "new_persons_vaccinated",
-                     "Daily ICU patients": "new_intensive_care_patients"}
+                     "Daily vaccinated": "new_persons_vaccinated"}
 
     reverse_parameter_map = {"new_confirmed": "Daily confirmed",
                              "new_deceased": "Daily deceased",
                              "new_tested": "Daily tested",
                              "new_hospitalized_patients": "Daily hospitalized",
-                             "new_persons_vaccinated": "Daily vaccinated",
-                             "new_intensive_care_patients": "Daily ICU patients"}
+                             "new_persons_vaccinated": "Daily vaccinated"}
 
     parameters = st.multiselect("What parameters would you like to view?",
                                 ["Daily confirmed", "Daily deceased", "Daily tested",
-                                 "Daily hospitalized", "Daily vaccinated", "Daily ICU patients"], default="Daily confirmed")
+                                 "Daily hospitalized", "Daily vaccinated"], default="Daily confirmed")
 
     selected_fields = [parameter_map[parameter] for parameter in parameters]
     selected_fields.append("date")
@@ -189,9 +187,8 @@ def multiselect_vis(df):
         x='date:T',
         y='count:Q',
         color=alt.Color('parameter:N', scale=alt.Scale(
-            domain=["new_confirmed", "new_deceased", "new_tested", "new_hospitalized_patients", "new_persons_vaccinated",
-                    "new_intensive_care_patients"],
-            range=['brown', 'red', 'yellow', 'blue', 'green', 'orange'])),
+            domain=["new_confirmed", "new_deceased", "new_tested", "new_hospitalized_patients", "new_persons_vaccinated"],
+            range=['brown', 'red', 'yellow', 'blue', 'green'])),
         tooltip=["parameter", "count"]
     ).interactive().properties(
         width=1000,
@@ -366,10 +363,7 @@ if __name__ =="__main__":
              "While the scale of the deaths is much lower compared to daily cases, we can still "
              "see similar spike patterns in death as the daily cases. This indicates that the "
              "3 periods that are present could indicate periods of appearance of new variants that are more"
-             "infectious and dangerous than the earlier ones. On observing the vaccination graph and ICU admitted patients graph, "
-             "we see that the number of ICU admitted patients has dropped a lot. This could be attributed to the effect of "
-             "vaccinations in preventing the infection from causing serious conditions. This evidence supports the widely "
-             "acknowledged claim that vaccines are effective and can  help prevent serious illness. Another point to note is that"
+             "infectious and dangerous than the earlier ones. A point to note is that"
              "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any"
              "singnificant increase. This further strengthens the point that vaccinations has helped in preventing serious"
              "illness and death due to COVID-19 Coronavirus. Now that we have seen how the trend has varied in time, "
@@ -405,6 +399,7 @@ if __name__ =="__main__":
     df_mobility = read_files_mobility(df_cases)
     mobility_vis(df_mobility)
 
+    df = pd.read_csv("data/worldbank.csv")
 
 
 
