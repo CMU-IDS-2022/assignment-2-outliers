@@ -392,8 +392,8 @@ if __name__ =="__main__":
              "to get vaccinated and hence they gained improved protection. So this could be a reason why the younger started to"
              "fall sick at later times")
     # Plot economy
-    df_economy = read_files_economy(df_cases)
-    economy_vis(df_economy)
+    # df_economy = read_files_economy(df_cases)
+    # economy_vis(df_economy)
 
     # Plot mobility data
     df_mobility = read_files_mobility(df_cases)
