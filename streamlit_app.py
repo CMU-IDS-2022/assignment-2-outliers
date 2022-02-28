@@ -523,13 +523,25 @@ def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_new
     st.write(
         "Well, it is clear from these graphs that the NZ had very few cases but they must have adopted very strict "
         "measures because of which we see a significant change in movements of it's citizens. This shows us how "
-        "two countries approach a situation they face in very different ways!")
+        "two countries approach a situation they face in very different ways! There May(not)be a [few lessons for all "
+        "countries to learn ](https://www.theregreview.org/2020/06/09/parker-lessons-new-zealand-covid-19-success/)"
+        "to deal with a future pandemic?")
+
+    st.write(
+        "Well we now have a good idea of how the Coronavirus spread across the US and how the citizens of the country reacted to it. ")
+    st.write("So what aggrevates the spread of the infection in the US?")
+    st.write("Let's find out if weather does!")
 
     return
 
 def cor_vis(cor_data):
 
     st.header("Is there any correlation between Weather and COVID? ")
+
+    st.write(
+        "Seen below is a correlation plot to investigate the dependence between multiple variables at the same time."
+        "We are mainly interested in seeing whether the number of covid cases has any dependence on any of the weather"
+        "parameters such as temperature, rainfall, humidity?")
 
     base = alt.Chart(cor_data).encode(
         x='Parameter 1:O',
@@ -556,6 +568,10 @@ def cor_vis(cor_data):
     )
 
     st.write(cor_plot + text)  # The '+' means overlaying the text and rect layer
+
+    st.write(
+        "We can see from the matrix above that there appears to be no significant correlation between the number of cases"
+        " and any of the weather parameters.")
 
     return
 
@@ -630,7 +646,16 @@ if __name__ =="__main__":
           [Carnegie Mellon University](https://www.cmu.edu).")
 
 
+# TO DO
+'''
+1) Conclusion
+2) Bar gender - Fix Y axis
+3) Different fonts for sliders
+4) Plot titles verify
+5) Make background grid for line graphs
+6) Writeup.md
 
+'''
 
 
 
