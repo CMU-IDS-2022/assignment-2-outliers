@@ -106,16 +106,44 @@ def read_cases_file():
 
 @st.cache
 def read_files_multiselect(df):
+    reverse_parameter_map = {"new_confirmed": "Daily confirmed",
+                             "new_deceased": "Daily deceased",
+                             "new_tested": "Daily tested",
+                             "new_hospitalized_patients": "Daily hospitalized",
+                             "new_persons_vaccinated": "Daily vaccinated"}
+    df = df.rename(columns=reverse_parameter_map)
     return df
+
+@st.cache
+def get_df_usa(df_cases):
+
+    df_vaccination_usa = df_cases[["date", "new_persons_vaccinated"]]
+    df_vaccination_usa.rename(columns={"date": "Date", "new_persons_vaccinated": "Number of vaccinated individuals"},
+                              inplace=True)
+    df_cases_usa = df_cases[["date", "new_confirmed"]]
+    df_cases_usa.rename(columns={"date": "Date", "new_confirmed": "Number of cases"},
+                        inplace=True)
+    df_death_hospitalized_usa = df_cases[["date", "new_deceased", "new_hospitalized_patients"]]
+    df_death_hospitalized_usa.rename(columns={"date": "Date", "new_deceased": "Number of deaths",
+                                              "new_hospitalized_patients": "Number of hospitalizations"},
+                                     inplace=True)
+    df_death_hospitalized_usa = df_death_hospitalized_usa.melt("Date", var_name='Parameter', value_name='Count')
+
+    return df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa
 
 def timestamp(t):
   return pd.to_datetime(t).timestamp() * 1000
 
 def globe_vis(location_df, countries):
-    # TO DO --- LEGEND FIX IT
+
+    st.write(
+        " First, to give us some context, let us look at how the COVID-19 disease has spread in various countries across time.")
+    st.header('How has the number of covid cases varied across the world in the past two years?')
+
+
     world = countries
     # Slider for date
-    date_slider = st.slider('Silde the Date', min(location_df['date']), max(location_df['date']), min(location_df['date']),
+    date_slider = st.slider('Silde the Date to see how the number of COVID cases vary with time', min(location_df['date']), max(location_df['date']), min(location_df['date']),
                             step=timedelta(days=30), help="Slide over to see different dates")
 
     # Get subset of dataframe based on selection
@@ -124,12 +152,12 @@ def globe_vis(location_df, countries):
     temp_df = temp_df[["date", "country_name", "new_confirmed", "latitude", "longitude"]]
 
     # Background chart
-    background = alt.Chart(world, title="Variation of Covid cases across years across countries").mark_geoshape(
+    background = alt.Chart(world, title="Variation of Covid cases across years on a monthly basis across countries").mark_geoshape(
         fill='#C4D0AF',
         stroke='black',
     ).project('equirectangular').properties(
         width=1200,
-        height=700
+        height=600
     )
 
     # Points chart
@@ -144,13 +172,25 @@ def globe_vis(location_df, countries):
         latitude='latitude:Q',
         longitude='longitude:Q',
         color=alt.value("#B62B24"),
-        size=alt.Size('count:Q', scale=alt.Scale(domain=[1, 20000000], range= [25, 7500])),
-        tooltip=['count:Q', "country_name"]
+        size=alt.Size('count:Q', scale=alt.Scale(domain=[1, 20000000], range= [25, 7500]), legend=None),
+        tooltip=[alt.Tooltip("country_name", title="Country Name"), alt.Tooltip('count:Q', title= "New Cases")]
     )
 
     # Plot both
     glob_plot = background + points
     st.altair_chart(glob_plot, use_container_width=True)
+
+    st.write(
+        "The map above gives us insight into how the number of covid cases has changed in the span of 2 years across the countries of the world."
+        " We see from the graph that within the span of the first 3 months, the infection has spread to almost all countries of the world. "
+        "This shows how quickly the COVID-19 disease can spreads from one location to another. "
+        "There is an almost exponential increase in the number of cases as months progressed. "
+        "Overall, we can see that countries that have reported the most number of cases include USA, India, Brazil, France, UK, Russia, Germany and Turkey. "
+        "We can also see that it is of a fluctuating nature in which there are periods in which  cases sharply increase and then reduce. "
+        "An interesting observation is to note how once a country gets infected with COVID-19, it does not go away! "
+        "It is evident that the past couple of months of December 2021 and January 2022 has seen a huge increase in the number of cases especially in the United States. ")
+
+    st.write("Now, since we have an idea of the overall trend, let's shift our focus to the United States and delve deeper into the trends of COVID-19 in the US.")
 
     return
 
@@ -159,35 +199,26 @@ def multiselect_vis(df):
     # TO DO -- MAYBE PUT SOME LINES IN ANOTHER CHART? FIX LEGEND
     # convert to date object
 
-    parameter_map = {"Daily confirmed": "new_confirmed",
-                     "Daily deceased": "new_deceased",
-                     "Daily tested": "new_tested",
-                     "Daily hospitalized": "new_hospitalized_patients",
-                     "Daily vaccinated": "new_persons_vaccinated"}
+    st.header(
+        'How have the number of daily covid cases/ deaths/ testing rate/ hospitalization rate and vaccintaion rate varied in the US?')
 
-    reverse_parameter_map = {"new_confirmed": "Daily confirmed",
-                             "new_deceased": "Daily deceased",
-                             "new_tested": "Daily tested",
-                             "new_hospitalized_patients": "Daily hospitalized",
-                             "new_persons_vaccinated": "Daily vaccinated"}
-
-    parameters = st.multiselect("What parameters would you like to view?",
+    parameters = st.multiselect("Select the parameters  you would like to view!",
                                 ["Daily confirmed", "Daily deceased", "Daily tested",
                                  "Daily hospitalized", "Daily vaccinated"], default="Daily confirmed")
 
-    selected_fields = [parameter_map[parameter] for parameter in parameters]
+    selected_fields = [parameter for parameter in parameters]
     selected_fields.append("date")
     plot_data = df[selected_fields]
     selected_fields.remove("date")
     plot_data = plot_data.melt("date", var_name='parameter', value_name='count')
-    plot_data["Name"] = plot_data["parameter"].map(lambda x: reverse_parameter_map[x])
+    plot_data["Name"] = plot_data["parameter"].map(lambda x: x)
 
     plot = alt.Chart(plot_data).mark_line().encode(
         x='date:T',
         y='count:Q',
         color=alt.Color('parameter:N', scale=alt.Scale(
-            domain=["new_confirmed", "new_deceased", "new_tested", "new_hospitalized_patients",
-                    "new_persons_vaccinated"],
+            domain=["Daily confirmed", "Daily deceased", "Daily tested", "Daily hospitalized",
+                    "Daily vaccinated"],
             range=['brown', 'red', 'yellow', 'blue', 'green'])),
         tooltip=["parameter", "count"]
     ).interactive().properties(
@@ -196,10 +227,25 @@ def multiselect_vis(df):
     )
     st.altair_chart(plot)
 
+    st.write("The trend in daily cases indicates that the US has been seeing a continuous presence of covid infection"
+             "Additionally, it appears that there have been 3 major spikes in covid cases:"
+             " October 2020 - February 2021, July 2021 - October 2021 and December 2021 - February 2022"
+             "So how has the increase in number of cases affected the number of daily deaths in the US?"
+             "While the scale of the deaths is much lower compared to daily cases, we can still "
+             "see similar spike patterns in death as the daily cases. This indicates that the "
+             "3 periods that are present could indicate periods of appearance of new variants that are more"
+             "infectious and dangerous than the earlier ones. A point to note is that"
+             "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any"
+             "singnificant increase. This further strengthens the point that vaccinations has helped in preventing serious"
+             "illness and death due to COVID-19 Coronavirus. Now that we have seen how the trend has varied in time, "
+             "we might now want to know whether there is any difference in number of cases across gender and age-group?")
+
     return
 
 
 def pie_radix(df):
+
+    st.header('How has COVID-19 affected across Genders and Age Groups?')
 
     source = pd.DataFrame({"Gender": ["Male", "Female"], "Cases": [max(df['cumulative_confirmed_male']),
                                                                    max(df['cumulative_confirmed_female'])]})
@@ -239,11 +285,21 @@ def pie_radix(df):
     pie_slice.write(pie_chart)
     radix_slice.write(radix_chart)
 
+    st.write(
+        "It appears to be that the Coronavirus has affected the males and Females equally. However, on looking at the numbers, "
+        "in fact, there are ~ 3M more Females that were infected as compared to Males. "
+        "On the right, we see that the Age Group of 20-29 were most affected alongside the middle aged people of 30-60. "
+        "The elderly and children have been comparitively less affected. However, it is worth noting that there have been"
+        "cases of children under 10 years of age also testing positive. It might be interesting to see whether through"
+        "the course of the two years there has been a change in the Age Groups that have been getting the infection.")
+
     return
 
 def gender_age_connected_vis(scatter_plot_data, bar_char_data):
 
     # TO DO --- FIX XTICK AND YTICK AS THE BAR X AXIS KEEPS CHANGING
+
+    st.header("How has the number of cases varied across Age Groups through the pandemic?")
     brush = alt.selection(type="interval", encodings=["x"])
 
     points = (
@@ -284,6 +340,14 @@ def gender_age_connected_vis(scatter_plot_data, bar_char_data):
 
     st.write(chart)
 
+    st.write("The first thing we notice is that there has almost equal number of males and females that have contracted"
+             "the infection throughout the season. Hence, from this we can conclude that the Coronavirus affects people"
+             "irrespective of their gender. By sliding a small window through time and observing the chart at the bottom, "
+             "we can see that initially the elderly have a higher number of cases and with time, we see that the younger 20-29 age groups"
+             "are starting to contract the infection more. This could be attributed to the fact that the elderly were the first ones"
+             "to get vaccinated and hence they gained improved protection. So this could be a reason why the younger started to"
+             "fall sick at later times")
+
     return
 
 def economy_vis(df_economy):
@@ -319,123 +383,89 @@ def mobility_vis(df_mobility):
 
     return
 
-if __name__ =="__main__":
+def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
 
-    st.title("COVID-19 Coronavirus Data Dashboard")
-
-    data_url = "https://goo.gle/covid-19-open-data"
-    wikipedia_url = "https://en.wikipedia.org/wiki/COVID-19_pandemic"
-
-    st.markdown("Through this dashboard we explore [The Google Health COVID-19 Open Data](%s) regarding the onset and the spread of the COVID-19 Coronavirus"  % data_url)
-
-    st.header("About the Coronavirus disease (COVID-19)")
-    st.markdown("The [COVID-19 pandemic](%s), also known as the coronavirus pandemic,\
-             is an ongoing global pandemic of coronavirus disease 2019 (COVID-19) \
-             caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). \
-             The novel virus was first identified  in the Chinese city of\
-             Wuhan in December 2019 and further spread to almost all parts of the globe.\
-             The World Health Organization (WHO) declared it a Public Health \
-             Emergency of International Concern on 30 January 2020 and labelled it a pandemic on 11 March 2020. \
-             As of 20 February 2022, the COVID-19 pandemic had caused more than 423 million cases and 5.88 million deaths,\
-             making it one of the deadliest in history. The disease is highly transmissible , mainly transmitted via the respiratory route when \
-             people inhale droplets and small airborne particles (that form an aerosol) that infected people exhale as \
-             they breathe, talk, cough, sneeze, or sing. Over the past two years, mutations of the virus have produced many strains (variants) \
-             with varying degrees of infectivity and virulence. The pandemic led to unprecedented lockdowns and movement \
-             restrictions imposed by many countries. Educational institutions and public areas were partially \
-              or fully closed in many jurisdictions, and many events were cancelled or postponed. \
-              Misinformation circulated through social media and mass media, and political tensions intensified. \
-              The pandemic raised issues of racial and geographic discrimination, health equity, and the balance between \
-              public health imperatives and individual rights." % wikipedia_url)
-    st.write(" First, to give us some context, let us look at how the COVID-19 disease has spread in various countries across time." )
-    st.header('How has the number of covid cases varied across the world in the past two years?')
-    # Plot the world covid cases
-    location_df, countries = read_files_globe()
-    globe_vis(location_df, countries)
-
-    st.write("The map above gives us insight into how the number of covid cases has changed in the span of 2 years across the countries of the world."
-             "We see from the graph that within the span of the first two moths, the infection has spread to almost all countries of the world. There is a "
-             "steady increase in the number of cases as months progressed. Overall, "
-             "we can see that countries that have reported the most number of cases include USA, India, Brazil, France, UK, Russia, Germany, Turkey"
-             "Data from the [] also indicate that the United States of America has experienced the highest number of covid cases and we will now "
-             "attempt to delve deeper into the trends of COVID-19 in the US.")
-
-    st.header('How have the number of daily covid cases/ deaths/ testing/ hospitalization and testing varied in the US?')
-
-    df_cases = read_cases_file()
-
-    # Plot the multiselect timeseries data for cases
-    df_multiselect = read_files_multiselect(df_cases)
-    multiselect_vis(df_multiselect)
-
-    st.write("The trend in daily cases indicates that the US has been seeing a continuous presence of covid infection"
-             "Additionally, it appears that there have been 3 major spikes in covid cases:"
-             " October 2020 - February 2021, July 2021 - October 2021 and December 2021 - February 2022"
-             "So how has the increase in number of cases affected the number of daily deaths in the US?"
-             "While the scale of the deaths is much lower compared to daily cases, we can still "
-             "see similar spike patterns in death as the daily cases. This indicates that the "
-             "3 periods that are present could indicate periods of appearance of new variants that are more"
-             "infectious and dangerous than the earlier ones. A point to note is that"
-             "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any"
-             "singnificant increase. This further strengthens the point that vaccinations has helped in preventing serious"
-             "illness and death due to COVID-19 Coronavirus. Now that we have seen how the trend has varied in time, "
-             "we might now want to know whether there is any difference in number of cases across gender and age-group?")
-
-    st.header('How has COVID-19 affected across Genders and Age Groups?')
-    # Plot the pie chart and radix chart
-    pie_radix(df_cases)
-
-    st.write("It appears to be that the Coronavirus has affected the males and Females equally. However, on looking at the numbers, "
-             "in fact, there are ~ 3M more Females that were infected as compared to Males. "
-             "On the right, we see that the Age Group of 20-29 were most affected alongside the middle aged people of 30-60. "
-             "The elderly and children have been comparitively less affected. However, it is worth noting that there have been"
-             "cases of children under 10 years of age also testing positive. It might be interesting to see whether through"
-             "the course of the two years there has been a change in the Age Groups that have been getting the infection.")
-
-    st.header("How has the number of cases varied across Age Groups through the pandemic?")
-    # Plot the gender-age connected charts
-    scatter_plot_data, bar_chart_data = read_gender_age_files(df_cases)
-    gender_age_connected_vis(scatter_plot_data, bar_chart_data)
-    st.write("The first thing we notice is that there has almost equal number of males and females that have contracted"
-             "the infection throughout the season. Hence, from this we can conclude that the Coronavirus affects people"
-             "irrespective of their gender. By sliding a small window through time and observing the chart at the bottom, "
-             "we can see that initially the elderly have a higher number of cases and with time, we see that the younger 20-29 age groups"
-             "are starting to contract the infection more. This could be attributed to the fact that the elderly were the first ones"
-             "to get vaccinated and hence they gained improved protection. So this could be a reason why the younger started to"
-             "fall sick at later times")
-
-
-    # Plotting the line graphs, continuing Viz 2
-
-    df_vaccination_usa = df_cases[["date", "new_persons_vaccinated"]]
-    df_vaccination_usa.rename(columns={"date": "Date", "new_persons_vaccinated": "Number of vaccinated individuals"},
-                               inplace=True)
     vaccination_usa_chart = alt.Chart(df_vaccination_usa).mark_line().encode(
         x='Date',
         y='Number of vaccinated individuals'
+    ).interactive().properties(
+        width=1000,
+        height=400
     )
     st.write(vaccination_usa_chart)
 
-    df_cases_usa = df_cases[["date", "new_confirmed"]]
-    df_cases_usa.rename(columns={"date": "Date", "new_confirmed": "Number of cases"},
-                              inplace=True)
     cases_usa_chart = alt.Chart(df_cases_usa).mark_line().encode(
         x='Date',
         y='Number of cases'
+    ).interactive().properties(
+        width=1000,
+        height=400
     )
     st.write(cases_usa_chart)
 
-    df_death_hospitalized_usa = df_cases[["date", "new_deceased", "new_hospitalized_patients"]]
-    df_death_hospitalized_usa.rename(columns={"date": "Date", "new_deceased": "Number of deaths",
-                                              "new_hospitalized_patients": "Number of hospitalizations"},
-                       inplace=True)
-    df_death_hospitalized_usa = df_death_hospitalized_usa.melt("Date", var_name='Parameter', value_name='Count')
     deaths_hospitalization_chart = alt.Chart(df_death_hospitalized_usa).mark_line().encode(
         x='Date',
         y='Count',
         color='Parameter',
         strokeDash='Parameter',
+    ).interactive().properties(
+        width=1000,
+        height=400
     )
     st.write(deaths_hospitalization_chart)
+    return cases_usa_chart
+
+def init_text():
+    data_url = "https://goo.gle/covid-19-open-data"
+    wikipedia_url = "https://en.wikipedia.org/wiki/COVID-19_pandemic"
+
+    st.markdown(
+        "Through this dashboard we explore [The Google Health COVID-19 Open Data](%s) regarding the onset and the spread of the COVID-19 Coronavirus" % data_url)
+
+    st.header("About the Coronavirus disease (COVID-19)")
+    st.markdown("The [COVID-19 pandemic](%s), also known as the coronavirus pandemic,\
+                 is an ongoing global pandemic of coronavirus disease 2019 (COVID-19) \
+                 caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). \
+                 The novel virus was first identified  in the Chinese city of\
+                 Wuhan in December 2019 and further spread to almost all parts of the globe.\
+                 The World Health Organization (WHO) declared it a Public Health \
+                 Emergency of International Concern on 30 January 2020 and labelled it a pandemic on 11 March 2020. \
+                 As of 20 February 2022, the COVID-19 pandemic had caused more than 423 million cases and 5.88 million deaths,\
+                 making it one of the deadliest in history. The disease is highly transmissible , mainly transmitted via the respiratory route when \
+                 people inhale droplets and small airborne particles (that form an aerosol) that infected people exhale as \
+                 they breathe, talk, cough, sneeze, or sing. Over the past two years, mutations of the virus have produced many strains (variants) \
+                 with varying degrees of infectivity and virulence. The pandemic led to unprecedented lockdowns and movement \
+                 restrictions imposed by many countries. Educational institutions and public areas were partially \
+                  or fully closed in many jurisdictions, and many events were cancelled or postponed. \
+                  Misinformation circulated through social media and mass media, and political tensions intensified. \
+                  The pandemic raised issues of racial and geographic discrimination, health equity, and the balance between \
+                  public health imperatives and individual rights." % wikipedia_url)
+
+if __name__ =="__main__":
+
+    st.title("COVID-19 Coronavirus Data Dashboard")
+
+    init_text()
+
+    # Plot the world covid cases
+    location_df, countries = read_files_globe()
+    globe_vis(location_df, countries)
+
+    df_cases = read_cases_file()
+    # Plot the multiselect timeseries data for cases
+    df_multiselect = read_files_multiselect(df_cases)
+    multiselect_vis(df_multiselect)
+
+    # Plotting the line graphs, continuing Viz 2
+    df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa = get_df_usa(df_cases)
+    cases_usa_chart = plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa)
+
+    # Plot the pie chart and radix chart
+    pie_radix(df_cases)
+
+    # Plot the gender-age connected charts
+    scatter_plot_data, bar_chart_data = read_gender_age_files(df_cases)
+    gender_age_connected_vis(scatter_plot_data, bar_chart_data)
 
     # Plot mobility data streamgraph usa
     df_mobility_usa = read_files_mobility(df_cases)
