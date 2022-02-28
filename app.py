@@ -533,8 +533,18 @@ if __name__ =="__main__":
 
     st.write("Well, it is clear from these graphs that the NZ had very few cases but they must have adopted very strict "
              "measures because of which we see a significant change in movements of it's citizens. This shows us how "
-             "two countries approach a situation they face in very different ways!")
+             "two countries approach a situation they face in very different ways! There May(not)be a [few lessons for all "
+             "countries to learn ](https://www.theregreview.org/2020/06/09/parker-lessons-new-zealand-covid-19-success/)"
+             "to deal with a future pandemic?")
 
+    st.write("Well we now have a good idea of how the Coronavirus spread across the US and how the citizens of the country reacted to it. ")
+    st.write("So what aggrevates the spread of the infection in the US?")
+    st.write("Let's find out if weather does!")
+
+    st.header("Does Covid spread more when the weather get's cooler?")
+    st.write("Seen below is a correlation plot to investigate the dependence between multiple variables at the same time."
+             "We are mainly interested in seeing whether the number of covid cases has any dependence on any of the weather"
+             "parameters such as temperature, rainfall, humidity?")
     # Correlation plot
     df_correlation = df_cases[["new_confirmed", "average_temperature_celsius", "rainfall_mm", "relative_humidity"]]
     df_correlation.rename(columns={"date": "Date", "new_confirmed": "Cases",
@@ -570,6 +580,9 @@ if __name__ =="__main__":
     )
 
     st.write(cor_plot + text)  # The '+' means overlaying the text and rect layer
+
+    st.write("We can see from the matrix above that there appears to be no significant correlation between the number of cases"
+             " and any of the weather parameters.")
 
 
 
