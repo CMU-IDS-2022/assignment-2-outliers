@@ -439,13 +439,12 @@ if __name__ =="__main__":
 
     # Plot mobility data streamgraph usa
     df_mobility_usa = read_files_mobility(df_cases)
-    mobility_vis(df_mobility_usa)
 
     # Plot mobility data streamgraph NZ
     df_cases_newzealand = pd.read_csv("data/NZ.csv")
     df_cases_newzealand['date'] = df_cases_newzealand['date'].map(lambda row: datetime.strptime(row, '%Y-%m-%d').date())
     df_mobility_newzealand = read_files_mobility(df_cases_newzealand)
-    mobility_vis(df_mobility_newzealand)
+
 
 
     df_cases_newzealand_daily = df_cases_newzealand[["date", "new_confirmed"]]
@@ -455,7 +454,6 @@ if __name__ =="__main__":
         x='Date',
         y='Number of cases'
     )
-    st.write(cases_nz_chart)
 
     col1_1, col1_2 = st.columns(2)
     with col1_1:
@@ -476,9 +474,41 @@ if __name__ =="__main__":
         st.header("NZ cases")
         st.write(cases_nz_chart)
 
-
-
     # Correlation plot
+    df_correlation = df_cases[["new_confirmed", "average_temperature_celsius", "rainfall_mm", "relative_humidity"]]
+    df_correlation.rename(columns={"date": "Date", "new_confirmed": "Cases",
+                                              "average_temperature_celsius": "Temperature",
+                                   "rainfall_mm": "Rainfall", "relative_humidity": "Humidity"}, inplace=True)
+    cor_data = (df_correlation
+                .corr().stack()
+                .reset_index()  # The stacking results in an index on the correlation values, we need the index as normal columns for Altair
+                .rename(columns={0: 'correlation', 'level_0': 'Parameter 1', 'level_1': 'Parameter 2'}))
+    cor_data['correlation_label'] = cor_data['correlation'].map('{:.2f}'.format)  # Round to 2 decimal
+    base = alt.Chart(cor_data).encode(
+        x='Parameter 1:O',
+        y='Parameter 2:O'
+    ).properties(
+        width=500,
+        height=500
+    )
+
+    # Text layer with correlation labels
+    # Colors are for easier readability
+    text = base.mark_text().encode(
+        text='correlation_label',
+        color=alt.condition(
+            alt.datum.correlation > 0.5,
+            alt.value('white'),
+            alt.value('black')
+        )
+    )
+
+    # The correlation heatmap itself
+    cor_plot = base.mark_rect().encode(
+        color='correlation:Q'
+    )
+
+    st.write(cor_plot + text)  # The '+' means overlaying the text and rect layer
 
 
 
