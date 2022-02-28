@@ -92,7 +92,15 @@ def read_files_mobility(df):
 
     df_mobility = df[["date", "mobility_retail_and_recreation", "mobility_grocery_and_pharmacy", "mobility_parks",
                       "mobility_transit_stations", "mobility_workplaces", "mobility_residential"]]
-    df_mobility = df_mobility.melt("date", var_name='Mobility Type', value_name='Percentage change')
+    df_mobility = df_mobility.rename(columns={"date": "Date", "mobility_retail_and_recreation": "Retail",
+                                              "mobility_grocery_and_pharmacy": "Grocery",
+                                              "mobility_parks": "Parks",
+                                              "mobility_transit_stations": "Stations",
+                                              "mobility_workplaces": "Workplaces",
+                                              "mobility_residential": "Residential"})
+
+    df_mobility = df_mobility.melt("Date", var_name='Mobility Type', value_name='Percentage change')
+
 
     return df_mobility
 
@@ -375,32 +383,19 @@ def gender_age_connected_vis(scatter_plot_data, bar_char_data):
 
     return
 
-def economy_vis(df_economy):
-
-    # TO DO --- FIND ANOTHER ECONOMY PARAMETER; FIX LEGEND
-    economy_chart = alt.Chart(df_economy).mark_line().encode(
-        x='Date',
-        y='Value',
-        color='parameter',
-        strokeDash='parameter',
-    ).properties(
-        width=1000
-    )
-    st.write(economy_chart)
-
-    return
 
 def mobility_vis(df_mobility):
 
     # TO DO -- WHAT DOES IT IMPLY? FIX LEGEND
     mobility_chart = alt.Chart(df_mobility).mark_area().encode(
-        alt.X('date:T',
+        alt.X('Date:T',
               axis=alt.Axis(format='%m-%Y', domain=False, tickSize=0)
               ),
         alt.Y('sum(Percentage change):Q', stack='center', axis=None),
         alt.Color('Mobility Type:N',
                   scale=alt.Scale(scheme='category10')
-                  )
+                  ),
+        alt.Tooltip(["Mobility Type", "Date"])
     ).properties(
         width=600
     ).interactive()
@@ -410,67 +405,88 @@ def mobility_vis(df_mobility):
 
 def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
 
-    vaccination_usa_chart = alt.Chart(df_vaccination_usa).mark_line().encode(
+    vaccination_usa_chart = alt.Chart(df_vaccination_usa).mark_line(color='green').encode(
         x='Date',
-        y='Number of vaccinated individuals'
+        y='Number of vaccinated individuals',
+        tooltip=alt.Tooltip(["Number of vaccinated individuals", "Date"])
     ).interactive().properties(
-        width=1000,
-        height=400
+        width=600
     )
-    st.write(vaccination_usa_chart)
 
-    cases_usa_chart = alt.Chart(df_cases_usa).mark_line().encode(
+    cases_usa_chart = alt.Chart(df_cases_usa).mark_line(color='brown').encode(
         x='Date',
-        y='Number of cases'
+        y='Number of cases',
+        tooltip=alt.Tooltip(["Number of cases", "Date"])
     ).interactive().properties(
-        width=1000,
-        height=400
+        width=600
     )
-    st.write(cases_usa_chart)
 
     deaths_hospitalization_chart = alt.Chart(df_death_hospitalized_usa).mark_line().encode(
         x='Date',
         y='Count',
         color='Parameter',
         strokeDash='Parameter',
+        tooltip=alt.Tooltip([ "Date"])
     ).interactive().properties(
-        width=1000,
-        height=400
+        width=800
     )
-    st.write(deaths_hospitalization_chart)
+
+    col1_1, col1_2 = st.columns(2)
+    with col1_1:
+        st.header("Vaccinations")
+        st.write(vaccination_usa_chart)
+
+    with col1_2:
+        st.header("Cases")
+        st.write(cases_usa_chart)
+
+    _, col_head, _ = st.columns([1, 2, 1])
+    with col_head:
+        st.header("Deaths & Hospitalizations")
+
+    _, _, col, _, _, _, _, _, _, _ = st.columns(10)
+    with col:
+        st.write(deaths_hospitalization_chart)
+
     return cases_usa_chart
 
 def nz_cases_vis(df_cases_newzealand_daily):
     cases_nz_chart = alt.Chart(df_cases_newzealand_daily).mark_line().encode(
         x='Date',
-        y='Number of cases'
+        y='Number of cases',
+        tooltip=alt.Tooltip(["Number of cases", "Date"])
+    ).interactive().properties(
+        width=600
     )
 
     return cases_nz_chart
 
 def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_newzealand):
+
     col1_1, col1_2 = st.columns(2)
     with col1_1:
-        st.header("US mobility")
+        st.header("Mobility in US")
         mobility_vis(df_mobility_usa)
 
     with col1_2:
-        st.header("NZ mobility")
+        st.header("Mobility in New Zealand")
         mobility_vis(df_mobility_newzealand)
 
     col2_1, col2_2 = st.columns(2)
 
     with col2_1:
-        st.header("US cases")
+        st.header("Cases in US")
         st.write(cases_usa_chart)
 
     with col2_2:
-        st.header("NZ cases")
+        st.header("Cases in New Zealand")
         st.write(cases_nz_chart)
 
     return
 
 def cor_vis(cor_data):
+
+    st.header("Is there any correlation between Weather and COVID? ")
 
     base = alt.Chart(cor_data).encode(
         x='Parameter 1:O',
@@ -565,6 +581,10 @@ if __name__ =="__main__":
     cor_data = get_cor_data(df_cases)
     cor_vis(cor_data)
 
+    st.markdown(
+        "This project was created by [Bharani Ujjaini Kempaiah](buk@andrew.cmu.edu) and [Ruben John Mampilli](rmampill@andrew.cmu.edu)\
+         for the [Interactive Data Science](https://dig.cmu.edu/ids2022) course at\
+          [Carnegie Mellon University](https://www.cmu.edu).")
 
 
 
