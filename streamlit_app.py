@@ -131,6 +131,31 @@ def get_df_usa(df_cases):
 
     return df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa
 
+@st.cache
+def read_nz_cases():
+    df_cases_newzealand = pd.read_csv("data/NZ.csv")
+    df_cases_newzealand['date'] = df_cases_newzealand['date'].map(lambda row: datetime.strptime(row, '%Y-%m-%d').date())
+
+    df_cases_newzealand_daily = df_cases_newzealand[["date", "new_confirmed"]]
+    df_cases_newzealand_daily.rename(columns={"date": "Date", "new_confirmed": "Number of cases"},
+                                     inplace=True)
+
+    return df_cases_newzealand, df_cases_newzealand_daily
+
+@st.cache
+def get_cor_data(df_cases):
+    df_correlation = df_cases[["new_confirmed", "average_temperature_celsius", "rainfall_mm", "relative_humidity"]]
+    df_correlation.rename(columns={"date": "Date", "new_confirmed": "Cases",
+                                   "average_temperature_celsius": "Temperature",
+                                   "rainfall_mm": "Rainfall", "relative_humidity": "Humidity"}, inplace=True)
+    cor_data = (df_correlation
+                .corr().stack()
+                .reset_index()  # The stacking results in an index on the correlation values, we need the index as normal columns for Altair
+                .rename(columns={0: 'correlation', 'level_0': 'Parameter 1', 'level_1': 'Parameter 2'}))
+    cor_data['correlation_label'] = cor_data['correlation'].map('{:.2f}'.format)  # Round to 2 decimal
+
+    return cor_data
+
 def timestamp(t):
   return pd.to_datetime(t).timestamp() * 1000
 
@@ -415,6 +440,66 @@ def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
     st.write(deaths_hospitalization_chart)
     return cases_usa_chart
 
+def nz_cases_vis(df_cases_newzealand_daily):
+    cases_nz_chart = alt.Chart(df_cases_newzealand_daily).mark_line().encode(
+        x='Date',
+        y='Number of cases'
+    )
+
+    return cases_nz_chart
+
+def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_newzealand):
+    col1_1, col1_2 = st.columns(2)
+    with col1_1:
+        st.header("US mobility")
+        mobility_vis(df_mobility_usa)
+
+    with col1_2:
+        st.header("NZ mobility")
+        mobility_vis(df_mobility_newzealand)
+
+    col2_1, col2_2 = st.columns(2)
+
+    with col2_1:
+        st.header("US cases")
+        st.write(cases_usa_chart)
+
+    with col2_2:
+        st.header("NZ cases")
+        st.write(cases_nz_chart)
+
+    return
+
+def cor_vis(cor_data):
+
+    base = alt.Chart(cor_data).encode(
+        x='Parameter 1:O',
+        y='Parameter 2:O'
+    ).properties(
+        width=500,
+        height=500
+    )
+
+    # Text layer with correlation labels
+    # Colors are for easier readability
+    text = base.mark_text().encode(
+        text='correlation_label',
+        color=alt.condition(
+            alt.datum.correlation > 0.5,
+            alt.value('white'),
+            alt.value('black')
+        )
+    )
+
+    # The correlation heatmap itself
+    cor_plot = base.mark_rect().encode(
+        color='correlation:Q'
+    )
+
+    st.write(cor_plot + text)  # The '+' means overlaying the text and rect layer
+
+    return
+
 def init_text():
     data_url = "https://goo.gle/covid-19-open-data"
     wikipedia_url = "https://en.wikipedia.org/wiki/COVID-19_pandemic"
@@ -467,78 +552,18 @@ if __name__ =="__main__":
     scatter_plot_data, bar_chart_data = read_gender_age_files(df_cases)
     gender_age_connected_vis(scatter_plot_data, bar_chart_data)
 
-    # Plot mobility data streamgraph usa
-    df_mobility_usa = read_files_mobility(df_cases)
+    df_cases_newzealand, df_cases_newzealand_daily = read_nz_cases()
 
-    # Plot mobility data streamgraph NZ
-    df_cases_newzealand = pd.read_csv("data/NZ.csv")
-    df_cases_newzealand['date'] = df_cases_newzealand['date'].map(lambda row: datetime.strptime(row, '%Y-%m-%d').date())
+    # Plot mobility data streamgraph usa and NZ
+    df_mobility_usa = read_files_mobility(df_cases)
     df_mobility_newzealand = read_files_mobility(df_cases_newzealand)
 
-
-
-    df_cases_newzealand_daily = df_cases_newzealand[["date", "new_confirmed"]]
-    df_cases_newzealand_daily.rename(columns={"date": "Date", "new_confirmed": "Number of cases"},
-                        inplace=True)
-    cases_nz_chart = alt.Chart(df_cases_newzealand_daily).mark_line().encode(
-        x='Date',
-        y='Number of cases'
-    )
-
-    col1_1, col1_2 = st.columns(2)
-    with col1_1:
-        st.header("US mobility")
-        mobility_vis(df_mobility_usa)
-
-    with col1_2:
-        st.header("NZ mobility")
-        mobility_vis(df_mobility_newzealand)
-
-    col2_1, col2_2 = st.columns(2)
-
-    with col2_1:
-        st.header("US cases")
-        st.write(cases_usa_chart)
-
-    with col2_2:
-        st.header("NZ cases")
-        st.write(cases_nz_chart)
+    cases_nz_chart = nz_cases_vis(df_cases_newzealand_daily)
+    nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_newzealand)
 
     # Correlation plot
-    df_correlation = df_cases[["new_confirmed", "average_temperature_celsius", "rainfall_mm", "relative_humidity"]]
-    df_correlation.rename(columns={"date": "Date", "new_confirmed": "Cases",
-                                              "average_temperature_celsius": "Temperature",
-                                   "rainfall_mm": "Rainfall", "relative_humidity": "Humidity"}, inplace=True)
-    cor_data = (df_correlation
-                .corr().stack()
-                .reset_index()  # The stacking results in an index on the correlation values, we need the index as normal columns for Altair
-                .rename(columns={0: 'correlation', 'level_0': 'Parameter 1', 'level_1': 'Parameter 2'}))
-    cor_data['correlation_label'] = cor_data['correlation'].map('{:.2f}'.format)  # Round to 2 decimal
-    base = alt.Chart(cor_data).encode(
-        x='Parameter 1:O',
-        y='Parameter 2:O'
-    ).properties(
-        width=500,
-        height=500
-    )
-
-    # Text layer with correlation labels
-    # Colors are for easier readability
-    text = base.mark_text().encode(
-        text='correlation_label',
-        color=alt.condition(
-            alt.datum.correlation > 0.5,
-            alt.value('white'),
-            alt.value('black')
-        )
-    )
-
-    # The correlation heatmap itself
-    cor_plot = base.mark_rect().encode(
-        color='correlation:Q'
-    )
-
-    st.write(cor_plot + text)  # The '+' means overlaying the text and rect layer
+    cor_data = get_cor_data(df_cases)
+    cor_vis(cor_data)
 
 
 
