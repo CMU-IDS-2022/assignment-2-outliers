@@ -229,8 +229,6 @@ def globe_vis(location_df, countries):
 
 def multiselect_vis(df):
 
-    # TO DO -- MAYBE PUT SOME LINES IN ANOTHER CHART? FIX LEGEND
-    # convert to date object
 
     st.header(
         'How have the number of daily covid cases/ deaths/ testing rate/ hospitalization rate and vaccintaion rate varied in the US?')
@@ -318,14 +316,19 @@ def pie_radix(df):
     pie_slice.write(pie_chart)
     radix_slice.write(radix_chart)
 
-    st.write(
-        "It appears to be that the Coronavirus has affected the males and Females equally. However, on looking at the numbers, "
-        "in fact, there are ~ 3M more Females that were infected as compared to Males. "
-        "On the right, we see that the Age Group of 20-29 were most affected alongside the middle aged people of 30-60. "
-        "The elderly and children have been comparitively less affected. However, it is worth noting that there have been"
-        "cases of children under 10 years of age also testing positive. It might be interesting to see whether through"
-        "the course of the two years there has been a change in the Age Groups that have been getting the infection.")
+    pie_slice.write(
+        "The pie chart tells us that the Coronavirus has infected approximately an equal number of Males and Females. "
+        "However, by hovering over the pie chart and looking at the numbers "
+        "we can see that there are ~ 3M more Females that were infected as compared to Males. \n")
 
+    radix_slice.write("The radix chart tells us that young adults of age 20-29 experienced the most number of cases, "
+                      "alongside the middle aged adults of 30-60. "
+                      "The elderly and children have been comparitively less affected. However, it is worth noting that there have been"
+                      "cases of children under 10 years of age also testing positive.")
+    radix_slice.write("\n")
+    st.write("Now, it might be interesting to see whether through"
+             " the course of the two years there have been certain periods during which there is a change in the distribution of cases"
+             "across Age Groups. ")
     return
 
 def gender_age_connected_vis(scatter_plot_data, bar_char_data):
@@ -372,13 +375,21 @@ def gender_age_connected_vis(scatter_plot_data, bar_char_data):
 
     st.write(chart)
 
-    st.write("The first thing we notice is that there has almost equal number of males and females that have contracted"
-             "the infection throughout the season. Hence, from this we can conclude that the Coronavirus affects people"
-             "irrespective of their gender. By sliding a small window through time and observing the chart at the bottom, "
+    st.write("The first visualization here reiterates the fact that Males and Females have been infected"
+             "equally through the course of the pandemic. Hence, from this observation we can conclude that the Coronavirus has affected people"
+             "equally irrespective of their gender. ")
+    st.write("By sliding a small window through time and observing the chart at the bottom, "
              "we can see that initially the elderly have a higher number of cases and with time, we see that the younger 20-29 age groups"
-             "are starting to contract the infection more. This could be attributed to the fact that the elderly were the first ones"
-             "to get vaccinated and hence they gained improved protection. So this could be a reason why the younger started to"
+             "are starting to contract the infection more. This could be attributed to the fact that the elderly were more likely to"
+             "contract the virus initially, but they were the first ones"
+             "to get vaccinated and hence they gained improved protection prior to the rest of the population. "
+             "So this could be a reason why the number of cases for the elderly starts to drop and the younger population started to"
              "fall sick at later times")
+
+    st.write(
+        "We now have some idea about how the number of cases varied with time and how Coronavirus affected across genders"
+        "and age groups. So how does the US compare to another country in the world? Have they also seen similar trends "
+        "as the US? Let's find out!")
 
     return
 
@@ -462,6 +473,14 @@ def nz_cases_vis(df_cases_newzealand_daily):
 
 def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_newzealand):
 
+    st.header("How does the US compare to New Zealand?")
+    st.write(
+        "Shown below is an interesting visualization called the streamgraph that is telling us how the percentage of "
+        "mobility of the population for day-to-day activities varied with respect to a baseline which was pre-covid. This "
+        "will give us an idea of the patterns of movement of the citizens of the US and New Zealand. NZ was in the "
+        "news for containing the virus very well and had strict restrictions in place. Let us see if the data"
+        " has the same story to tell!")
+
     col1_1, col1_2 = st.columns(2)
     with col1_1:
         st.header("Mobility in US")
@@ -470,6 +489,15 @@ def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_new
     with col1_2:
         st.header("Mobility in New Zealand")
         mobility_vis(df_mobility_newzealand)
+
+    st.write(
+        "The mobility changes are very different for each of the countries! It is evident that the citizens of the US "
+        "have not changed any of their movement patterns through the pandemic. However, the New Zealanders appears to have"
+        " sharply reduced their activity during a few months which could point to those months when they had strict lockdowns")
+    st.write(
+        "So was the NZ then under severe impact of Covid that they required strict measures? How did their cases compare to "
+        "that of the US?")
+
 
     col2_1, col2_2 = st.columns(2)
 
@@ -480,6 +508,11 @@ def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_new
     with col2_2:
         st.header("Cases in New Zealand")
         st.write(cases_nz_chart)
+
+    st.write(
+        "Well, it is clear from these graphs that the NZ had very few cases but they must have adopted very strict "
+        "measures because of which we see a significant change in movements of it's citizens. This shows us how "
+        "two countries approach a situation they face in very different ways!")
 
     return
 
