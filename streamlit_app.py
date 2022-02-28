@@ -245,8 +245,8 @@ def multiselect_vis(df):
     plot_data["Name"] = plot_data["parameter"].map(lambda x: x)
 
     plot = alt.Chart(plot_data).mark_line().encode(
-        x='date:T',
-        y='count:Q',
+        x=alt.X('date:T', title="Date"),
+        y=alt.Y('count:Q', title="Count"),
         color=alt.Color('parameter:N', scale=alt.Scale(
             domain=["Daily confirmed", "Daily deceased", "Daily tested", "Daily hospitalized",
                     "Daily vaccinated"],
