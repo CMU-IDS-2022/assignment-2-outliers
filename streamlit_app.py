@@ -356,9 +356,8 @@ def gender_age_connected_vis(scatter_plot_data, bar_char_data):
             x="New Cases:Q",
             color=alt.Color("Age Group:N"),
             y="Age Group:N",
-        ).transform_filter(brush).interactive(
-
-        ).properties(
+            tooltip=alt.Tooltip(["New Cases", "Age Group"])
+        ).transform_filter(brush).interactive().properties(
             height=200,
             width=1000
         )
@@ -424,9 +423,9 @@ def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
     deaths_hospitalization_chart = alt.Chart(df_death_hospitalized_usa).mark_line().encode(
         x='Date',
         y='Count',
+        tooltip=alt.Tooltip(["Parameter", "Count", "Date"]),
         color='Parameter',
-        strokeDash='Parameter',
-        tooltip=alt.Tooltip([ "Date"])
+        strokeDash='Parameter'
     ).interactive().properties(
         width=800
     )
@@ -444,7 +443,7 @@ def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
     with col_head:
         st.header("Deaths & Hospitalizations")
 
-    _, _, col, _, _, _, _, _, _, _ = st.columns(10)
+    _, col, _ = st.columns([1,2,1])
     with col:
         st.write(deaths_hospitalization_chart)
 
