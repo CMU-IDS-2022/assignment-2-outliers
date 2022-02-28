@@ -653,10 +653,10 @@ if __name__ =="__main__":
 3) Different fonts for sliders
 4) Plot titles verify
 5) Make background grid for line graphs
-6) Writeup.md
-7) Plot titles for pie chart
-8) Move corr plot to center
-9) Percentage change in mobility, change heading
+6) Plot titles for pie chart
+7) Move corr plot to center
+8) Percentage change in mobility, change heading
+9) Writeup.md
 
 '''
 
