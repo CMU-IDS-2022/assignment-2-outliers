@@ -258,18 +258,25 @@ def multiselect_vis(df):
     )
     st.altair_chart(plot)
 
-    st.write("The trend in daily cases indicates that the US has been seeing a continuous presence of covid infection"
-             "Additionally, it appears that there have been 3 major spikes in covid cases:"
-             " October 2020 - February 2021, July 2021 - October 2021 and December 2021 - February 2022"
-             "So how has the increase in number of cases affected the number of daily deaths in the US?"
+    st.write("You can play around with the above chart and compare the trends of different parameters!")
+
+    st.write("The trend in daily cases indicates that the US has been seeing a continuous presence of covid infection. "
+             "Additionally, it can be seen that there have been 3 major spikes in covid cases: "
+             "October 2020 - February 2021, July 2021 - October 2021 and December 2021 - February 2022. "
+             "So how has the increase in number of cases affected the number of daily deaths in the US? "
              "While the scale of the deaths is much lower compared to daily cases, we can still "
-             "see similar spike patterns in death as the daily cases. This indicates that the "
-             "3 periods that are present could indicate periods of appearance of new variants that are more"
-             "infectious and dangerous than the earlier ones. A point to note is that"
-             "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any"
-             "singnificant increase. This further strengthens the point that vaccinations has helped in preventing serious"
-             "illness and death due to COVID-19 Coronavirus. Now that we have seen how the trend has varied in time, "
-             "we might now want to know whether there is any difference in number of cases across gender and age-group?")
+             "see similar spike patterns in death as the daily cases. This indicates that these "
+             "3 periods that are present could represent  periods of appearance of new variants namely the Alpha, Delta and "
+             "Omicron. It can be seen that Omicron (3rd wave) is highly infectious as the number of cases soared. A point to note is that "
+             "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any "
+             "singnificant increase. The number of Hospitalizations has increased, however not in proportion to the increase in cases. "
+             "At the same time, from the vaccination graph we see that a large number of individuals were vaccinated before this period. "
+             "Therefore the fact that the death rate has not increased and in fact has gone down if you consider number_of_deaths/number_of_cases "
+             "can be attributed to the argument that vaccinations have helped in preventing serious "
+             "illness and therefore prevented hospitalizations and death due to COVID-19.")
+
+    st.write("The individual bar charts have also been plotted below to remove the scale imbalance between the features "
+             "to get a better understanding of these features")
 
     return
 
@@ -457,6 +464,10 @@ def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
     _, col, _ = st.columns([1,2,1])
     with col:
         st.write(deaths_hospitalization_chart)
+
+    st.write("Now that we have seen how the trend has varied in time, "
+             "we might now want to know whether COVID affects a particular category of people more than others? "
+             "Is there any difference in number of cases across gender and age-group?")
 
     return cases_usa_chart
 
