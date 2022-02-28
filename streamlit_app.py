@@ -654,6 +654,9 @@ if __name__ =="__main__":
 4) Plot titles verify
 5) Make background grid for line graphs
 6) Writeup.md
+7) Plot titles for pie chart
+8) Move corr plot to center
+9) Percentage change in mobility, change heading
 
 '''
 
