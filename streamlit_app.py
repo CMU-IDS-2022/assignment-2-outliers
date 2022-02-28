@@ -5,8 +5,7 @@ import altair as alt
 from vega_datasets import data
 from datetime import datetime, timedelta
 
-data_url = "https://goo.gle/covid-19-open-data"
-wikipedia_url = "https://en.wikipedia.org/wiki/COVID-19_pandemic"
+
 @st.cache
 def read_files_globe():
 
@@ -116,7 +115,7 @@ def globe_vis(location_df, countries):
     # TO DO --- LEGEND FIX IT
     world = countries
     # Slider for date
-    date_slider = st.slider('Date', min(location_df['date']), max(location_df['date']), min(location_df['date']),
+    date_slider = st.slider('Silde the Date', min(location_df['date']), max(location_df['date']), min(location_df['date']),
                             step=timedelta(days=30), help="Slide over to see different dates")
 
     # Get subset of dataframe based on selection
@@ -125,12 +124,12 @@ def globe_vis(location_df, countries):
     temp_df = temp_df[["date", "country_name", "new_confirmed", "latitude", "longitude"]]
 
     # Background chart
-    background = alt.Chart(world).mark_geoshape(
-        fill='lightgray',
-        stroke='black'
-    ).properties(
-        width=1300,
-        height=900
+    background = alt.Chart(world, title="Variation of Covid cases across years across countries").mark_geoshape(
+        fill='#C4D0AF',
+        stroke='black',
+    ).project('equirectangular').properties(
+        width=1200,
+        height=700
     )
 
     # Points chart
@@ -150,7 +149,8 @@ def globe_vis(location_df, countries):
     )
 
     # Plot both
-    st.altair_chart(background + points, use_container_width=True)
+    glob_plot = background + points
+    st.altair_chart(glob_plot, use_container_width=True)
 
     return
 
@@ -323,20 +323,31 @@ if __name__ =="__main__":
 
     st.title("COVID-19 Coronavirus Data Dashboard")
 
+    data_url = "https://goo.gle/covid-19-open-data"
+    wikipedia_url = "https://en.wikipedia.org/wiki/COVID-19_pandemic"
+
     st.markdown("Through this dashboard we explore [The Google Health COVID-19 Open Data](%s) regarding the onset and the spread of the COVID-19 Coronavirus"  % data_url)
 
     st.header("About the Coronavirus disease (COVID-19)")
-    st.markdown("The [COVID-19 pandemic] (%s), also known as the coronavirus pandemic,\
+    st.markdown("The [COVID-19 pandemic](%s), also known as the coronavirus pandemic,\
              is an ongoing global pandemic of coronavirus disease 2019 (COVID-19) \
              caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). \
-             The novel virus was first identified from an outbreak in the Chinese city of\
-             Wuhan in December 2019, and attempts to contain it there failed, allowing it to \
-             spread across the globe. The World Health Organization (WHO) declared a Public Health \
-             Emergency of International Concern on 30 January 2020 and a pandemic on 11 March 2020. \
-             As of 20 February 2022, the pandemic had caused more than 423 million cases and 5.88 million deaths,\
-             making it one of the deadliest in history." % wikipedia_url)
-    st.write("Let us now dive in to see what the data can tell us about the spread of this disease." )
-    st.header('How has the number of covid cases varied across the world?')
+             The novel virus was first identified  in the Chinese city of\
+             Wuhan in December 2019 and further spread to almost all parts of the globe.\
+             The World Health Organization (WHO) declared it a Public Health \
+             Emergency of International Concern on 30 January 2020 and labelled it a pandemic on 11 March 2020. \
+             As of 20 February 2022, the COVID-19 pandemic had caused more than 423 million cases and 5.88 million deaths,\
+             making it one of the deadliest in history. The disease is highly transmissible , mainly transmitted via the respiratory route when \
+             people inhale droplets and small airborne particles (that form an aerosol) that infected people exhale as \
+             they breathe, talk, cough, sneeze, or sing. Over the past two years, mutations of the virus have produced many strains (variants) \
+             with varying degrees of infectivity and virulence. The pandemic led to unprecedented lockdowns and movement \
+             restrictions imposed by many countries. Educational institutions and public areas were partially \
+              or fully closed in many jurisdictions, and many events were cancelled or postponed. \
+              Misinformation circulated through social media and mass media, and political tensions intensified. \
+              The pandemic raised issues of racial and geographic discrimination, health equity, and the balance between \
+              public health imperatives and individual rights." % wikipedia_url)
+    st.write(" First, to give us some context, let us look at how the COVID-19 disease has spread in various countries across time." )
+    st.header('How has the number of covid cases varied across the world in the past two years?')
     # Plot the world covid cases
     location_df, countries = read_files_globe()
     globe_vis(location_df, countries)
