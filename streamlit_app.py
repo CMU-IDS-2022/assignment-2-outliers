@@ -582,8 +582,9 @@ def cor_vis(cor_data):
 
     with col1_2:
         st.write(
-            "We can see from the matrix above that there appears to be no significant correlation between the number of cases"
-            " and any of the weather parameters. However there does seem to be a slight trend from the daily cases graph that "
+            "We can see from the matrix that there appears to be no significant correlation between the number of cases"
+            " and any of the weather parameters.")
+        st.write("However there does seem to be a slight trend from the daily cases graph that "
             "tells us that during the months of November - February, there seems to be a spike. This is probably due the holiday "
             "season and people tend to celebrate and take part in festivities which could result in more infections. ")
 
@@ -653,6 +654,11 @@ if __name__ =="__main__":
     # Correlation plot
     cor_data = get_cor_data(df_cases)
     cor_vis(cor_data)
+
+    st.write("Through this dashboard we were able to get an idea of how the pandemic has spread across the world and "
+             "what the trend has been in the United States. Through this dashboard we hope we were able to convey some interesting "
+             "insights about the trends of the Coronovirus. There is still a lot of interesting things that can be explored "
+             "with this data. Happy Visualizing! ")
 
     st.markdown(
         "This project was created by [Bharani Ujjaini Kempaiah](buk@andrew.cmu.edu) and [Ruben John Mampilli](rmampill@andrew.cmu.edu)\
