@@ -35,26 +35,33 @@ the nature of the disease as well as the effect of vaccinations</li>
 <li> We decided to have a multi select line chart and the user can choose which parameter(s) to visualize</li>
 <li>A static line chart to compare a fee import lines was also made due to scale imbalance between them. 
 This provided flexibility to the user to explore.</li>
-</ul>
- </p>
+</ul></p>
 
-<p>With the insights gained from the earlier visualizations, we now wanted to look into how coid affected the demography of the US. 
+<p>With the insights gained from the earlier visualizations, we now wanted to look into how coid affected the demography of the US.<br> 
 Did it affect Males more than Females?  <br>
 How did it affected the various age groups in through time over the past two years?<br>
 <ul>
 <li>We employed a pie chart showing the cumulative distribution </li>
 <li>An interactive multi-view coordination which connects the progression in cases across gender and age groups through time.</li> 
+</ul></p>
+
+<p>
+Preventive measures such as restrictions and lockdowns were imposed by countries to control the spread of the Coronavirus. 
+To understand the outcome of the measures, we will now observe the change in moblity of the citizen's of the US by comparing
+them to that of New Zealand because New Zealand is known to have very strict restrictions in place. 
+<ul>
+<li>We employed static visualizations since we wanted to compare only 2 countries</li>
+<li>We used a streamgraph to depict this phenomenon since there were multiple categories and the streamgraph could be
+used to interpret the change in trend of mobility of the people of the country</li>
+</ul></p>
+
+<p>
+Another dimension that we wanted to touch upon was how parameters of weather influenced the number of cases
+<ul>
+<li>We used a correlation matrix to demonstrate the dependence between variables such as rainfall, temperature et. with 
+the number of cases </li>
 </ul>
 </p>
-
-As we know that preventive measures were taken differently in countries at varying levels. Let's compare how the US did Vs NZ. 
-We wanted to show the effect of preventive/ containment measures such as lockdown in US. We thought it would be best to 
-compare it with a vcountry that did it strictly i.e NZ. 
-Now that the viewer had an idea about the general progression of Covid in the US. We wanted to give a view about
-how two countries might have seen effect on their mobility via lockdowns and strict covid measures. We wanted to depict how the
-mobility changed in the last two years. We wanted to show how the US and NZ approached this issue. Since the scales of their cases was very 
-different, we employed static visualizations. 
-
 Finally, a question we had in mind was whether the condition of the weather affects the covid rises. Because the user might notice
 that the 3 peaks seen occur usually during the cooler seasons. So we tried to analyze if there existed any correlation to the user. 
 
@@ -67,18 +74,20 @@ lets now see how the US govt approached it and compare it with how the NZ govt a
 
 TODO: **An overview of your development process.** Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?
 
+<p>
 First, we had an hour long discussion to choose the domain of the data and appropriate questions we wanted to answer from datasets in these domains.
-We then divide the task of dataset selection by having one team member look at COVID datasets and another at weather datasets.
-Each one of use analyzed the data present in the datasets we could find and perform some data statistics and exlporatory analysis to explore the feasablity and quality of the datasets in order to answer the identified questions and also look at the possibility of identifying new questions
+We then divide the task of dataset selection by trying to explore existing datasets and identify ones that interested us.
+Each one of use analyzed the data present in the datasets we could find and perform some data statistics and exlporatory analysis to explore the feasibility and quality of the datasets in order to answer the identified questions and also look at the possibility of identifying new questions
 This took around 3 hrs per person. 
-Next, we discussed our findings and chose the COVID-19 dataset (include name) as the ideal dataset to answer our questions
-We next identified 5 visualizations to address the 5 questions.
+Next, we discussed our findings and chose the <a href = 'https://goo.gle/covid-19-open-data'>Google health COVID-19 Open Dataset </a>. 
 We split the visualizations between the two team members and coded them separately.
-This took around 10 hours in total to make. More than half of this time was mostly spent on the Map visualization as altair did not have a very good map interface.
-Since the range of covid cases was very big, deciding the size of the circles also took time as we needed to get representative and comaparable sizes while ensuring that they arent so big due to scale imbalance that one country eclipsed the entire continent!
+This took around 10 hours in total to make. More than half of this time was mostly spent on the Map visualization as Altair did not have very good support for map interface.
+Since the range of covid cases was very big, deciding the size of the circles also took time as we needed to get representative and comparable sizes while ensuring that they aren't very huge
+due to scale imbalance that one country would eclipse the entire continent!
 After this we worked on writing some textual descriptions and content to engage the user.
 Then we worked on alignment and providing a nice aesthetic to the dashboard which took another 3 hrs.
 In total, we spent around 16 hrs per person for this assignment over the past month. 
+
 
 ## Success Story
 
