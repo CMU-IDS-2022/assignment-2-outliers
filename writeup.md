@@ -20,7 +20,7 @@ effect of the virus across the <b>demography</b> of the US and. </p>
 TODO: **A rationale for your design decisions.** How did you choose your particular visual encodings and interaction techniques? What alternatives did you consider and how did you arrive at your ultimate choices?
 <p>We wanted to first give the user a high level perspective about the trend in COVID-19 cases across the countries of the world.
 <ul><li>We decided to use a map visualization which depicts the cases in the countries
-across time by a time slider </li>. 
+across time by a time slider </li>
 <li>Using area of the bubble to indicate the number of cases, it becomes easy for the viewer to perceive 
 the general trend</li></ul>
 Since the motive of this visualization was to give context and not exact numbers, it made sense to use a general estimate such as a bubble over having 
