@@ -1,10 +1,12 @@
-# Project name
+# COVID-19 Coronavirus Data Dashboard
 
-![A screenshot of your application. Could be a GIF.](screenshot.png)
+![A screenshot of the dashboard](screenshot.png)
 
-TODO: Update screenshot
-
-TODO: Short abstract describing the main goals and how you achieved them.
+This dashboard informs the user about the spread of the Coronavirus in the United States. Through the visualizations the viewer
+can gain insight into various parameters such as the trend in vaccination, hospitalizations and deaths. The dashboard also aids in 
+finding out whether the Coronavirus has affected Males more than Females and which Age groups are most affected. 
+Through this dashboard we aim to inform the user about the trends and spread of the 
+Coronavirus. 
 
 ## Project Goals
 
