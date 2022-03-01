@@ -78,9 +78,10 @@ TODO: **An overview of your development process.** Describe how the work was spl
 First, we had an hour long discussion to choose the domain of the data and appropriate questions we wanted to answer from datasets in these domains.
 <ul>
 <li>We then divide the task of dataset selection by trying to explore existing datasets and identify ones that interested us.</li>
-<li>Each one of use analyzed the data present in the datasets we could find and perform some data statistics and exlporatory analysis to explore the feasibility and quality of the datasets in order to answer the identified questions and also look at the possibility of identifying new questions
-This took around 3 hrs per person. </li>
-<li></li>Next, we discussed our findings and chose the <a href = 'https://goo.gle/covid-19-open-data'>Google health COVID-19 Open Dataset </a>. </li>
+<li>Each one of use analyzed the data present in the datasets we could find and perform some data statistics and 
+exlporatory analysis to explore the feasibility and quality of the datasets in order to answer the identified 
+questions and also look at the possibility of identifying new questions. This took around 3 hrs per person. </li>
+<li>Next, we discussed our findings and chose the <a href = 'https://goo.gle/covid-19-open-data'>Google health COVID-19 Open Dataset </a>. </li>
 <li>We split the work in terms of the visualizations between the two team members and worked on them separately.
 This took around 10 hours in total to make.</li>
 <li>The map visualization consumed the major chunk of our time since Altair did not have very good support for map interface.
