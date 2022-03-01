@@ -36,7 +36,7 @@ the nature of the disease as well as the effect of vaccinations</li>
 This provided more flexibility to the user to explore.</li>
 </ul></p>
 
-<p>With the insights gained from the earlier visualizations, we now wanted to look into how COVID-19 affected different groups of the population in the US.<br> <br>
+<p>With the insights gained from the earlier visualizations, we now wanted to look into how COVID-19 affected different groups of the population in the US.<br>
 Did it affect Males more than Females?  <br>
 How did it affect the various age groups through time over the past two years?<br>
 <ul>
