@@ -171,7 +171,7 @@ def globe_vis(location_df, countries):
 
     st.write("")
     st.write(
-        "<p style='font-size:18px'> First, to give us some context, let us look at how the COVID-19 disease has spread in various countries across time!<p>",
+        "<p style='font-size:18px'> First, to give us some context, let us look at how the COVID-19 disease has spread in various <b style='color:#900C3F'>countries across time</b>!<p>",
     unsafe_allow_html=True)
     st.header('How has the number of covid cases varied across the world in the past two years?')
 
@@ -220,13 +220,13 @@ def globe_vis(location_df, countries):
     unsafe_allow_html=True)
 
     st.write("<p style='font-size:18px'><ul >"
-             "<li style='font-size:18px'> We see from the graph that within the span of the first 3 months, the infection "
-             "has spread to almost all countries of the world. This shows how quickly the COVID-19 disease can "
+             "<li style='font-size:18px'> We see from the graph that within the span of the first <b style='color:#900C3F'>3 months</b>, the infection "
+             "has spread to almost <b style='color:#900C3F'>all countries</b> of the world. This shows how quickly the COVID-19 disease can "
              "spreads from one location to another</li>"
-             "<li style='font-size:18px'> There is an almost exponential increase in the number of cases as months progressed</li>"
-             "<li style='font-size:18px'>Overall, we can see that countries that have reported the most number of cases include USA, India, Brazil, "
-             "France, UK, Russia, Germany and Turkey </li>"
-             "<li style='font-size:18px'> We can also see that it is of a fluctuating nature in which there are periods in which  cases sharply increase and then reduces</li>"
+             "<li style='font-size:18px'> There is an almost <b style='color:#900C3F'>exponential</b> increase in the number of cases as months progressed</li>"
+             "<li style='font-size:18px'>Overall, we can see that countries that have reported the most number of cases include <b style='color:#900C3F'>USA, India, Brazil, "
+             "France, UK, Russia, Germany and Turkey </b></li>"
+             "<li style='font-size:18px'> We can also see that it is of a <b style='color:#900C3F'>fluctuating </b> nature in which there are periods in which  cases sharply increase and then reduces</li>"
              "<li style='font-size:18px'> An interesting observation is to note how once a country gets infected with COVID-19, it does not go away!</li>"
              "<li style='font-size:18px'>It is evident that the past couple of months of December 2021 and January 2022 has seen a huge increase in the number of cases  </li>"
              " </ul>"
@@ -234,7 +234,7 @@ def globe_vis(location_df, countries):
 
     st.write("")
     st.write("<p style='font-size:18px'>Now, since we have an idea of the overall trend, let's shift our focus "
-             "to the United States and delve deeper into the trends of COVID-19 in the US.</p>", unsafe_allow_html=True)
+             "to the <b style='color:#900C3F'>United States (US) </b> and delve deeper into the trends of COVID-19 in the US.</p>", unsafe_allow_html=True)
 
     return
 
@@ -272,20 +272,20 @@ def multiselect_vis(df):
     st.write("<p style='font-size:18px'>You can play around with the above chart and compare the trends of different parameters!</p>", unsafe_allow_html=True)
     st.write("")
     st.write("<p style='font-size:18px'>"
-             "The trend in daily cases indicates that the US has been seeing a continuous presence of covid infection. "
-             "Additionally, it can be seen that there have been 3 major spikes in covid cases: "
-             "October 2020 - February 2021, July 2021 - October 2021 and December 2021 - February 2022. </p>", unsafe_allow_html=True)
+             "The trend in daily cases indicates that the US has been seeing a <b style='color:#900C3F'>continuous presence </b> of covid infection. "
+             "Additionally, it can be seen that there have been <b style='color:#900C3F'>3 major spikes </b> in covid cases: "
+             "<ul><li style='font-size:18px'>October 2020 - February 2021 </li> <li style='font-size:18px'>July 2021 - October 2021</li> <li style='font-size:18px'>December 2021 - February 2022</li> </ul></p>", unsafe_allow_html=True)
     st.write("<p style='font-size:18px'>So how has the increase in number of cases affected the number of daily deaths in the US? "
-             "While the scale of the deaths is much lower compared to daily cases, we can still "
+             "While the scale of the <b style='color:#900C3F'>deaths is much lower</b> compared to daily cases, we can still "
              "see similar spike patterns in death as the daily cases. This indicates that these "
-             "3 periods that are present could represent  periods of appearance of new variants namely the Alpha, Delta and "
-             "Omicron.</p>", unsafe_allow_html=True)
-    st.write("<p style='font-size:18px'>It can be seen that Omicron (3rd wave) is highly infectious as the number of cases soared. A point to note is that "
-             "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any "
-             "singnificant increase. The number of Hospitalizations has increased, however not in proportion to the increase in cases. "
-             "At the same time, from the vaccination graph we see that a large number of individuals were vaccinated before this period. "
+             "3 periods that are present could represent  periods of appearance of new variants namely the <b style='color:#900C3F'>Alpha, Delta and "
+             "Omicron.</b></p>", unsafe_allow_html=True)
+    st.write("<p style='font-size:18px'>It can be seen that <b style='color:#900C3F'>Omicron (3rd wave) is highly infectious</b> as the number of cases soared. A point to note is that "
+             "though there has been almost a three times increase in cases in the last wave, <b style='color:#900C3F'>the number of deceased has not seen any "
+             "singnificant increase</b>. The number of Hospitalizations has increased, however not in proportion to the increase in cases. "
+             "At the same time, from the vaccination graph we see that a large number of individuals were <b style='color:#900C3F'>vaccinated</b> before this period. "
              "Therefore the fact that the death rate has not increased and in fact has gone down if you consider number_of_deaths/number_of_cases "
-             "can be attributed to the argument that vaccinations have helped in preventing serious "
+             "can be attributed to the argument that <b style='color:#900C3F'>vaccinations have helped </b>in preventing serious "
              "illness and therefore prevented hospitalizations and death due to COVID-19.</p>", unsafe_allow_html=True)
     st.write("")
 
@@ -342,13 +342,13 @@ def pie_radix(df):
     radix_slice.write(radix_chart)
 
     pie_slice.write(
-        "<p style='font-size:18px'>The pie chart tells us that the Coronavirus has infected approximately an equal number of Males and Females. "
+        "<p style='font-size:18px'>The pie chart tells us that the Coronavirus has infected approximately an  <b style='color:#900C3F'>equal number of Males and Females</b>. "
         "However, by hovering over the pie chart and looking at the numbers "
         "we can see that there are ~ 3M more Females that were infected as compared to Males.</p>", unsafe_allow_html=True)
 
-    radix_slice.write("<p style='font-size:18px'>The radix chart tells us that young adults of age 20-29 experienced the most number of cases, "
+    radix_slice.write("<p style='font-size:18px'>The radix chart tells us that young adults of age  <b style='color:#900C3F'>20-29</b> experienced the most number of cases, "
                       "alongside the middle aged adults of 30-60. "
-                      "The elderly and children have been comparitively less affected. However, it is worth noting that there have been"
+                      "The elderly and children have been comparitively less affected. However, it is worth noting that there have been "
                       "cases of children under 10 years of age also testing positive.</p>", unsafe_allow_html=True)
     radix_slice.write("\n")
     st.write("<p style='font-size:18px'>Now, it might be interesting to see whether through"
@@ -400,19 +400,19 @@ def gender_age_connected_vis(scatter_plot_data, bar_char_data):
 
     st.write(chart)
 
-    st.write("<p style='font-size:18px'>The first visualization here reiterates the fact that Males and Females have been infected"
-             "equally through the course of the pandemic. Hence, from this observation we can conclude that the Coronavirus has affected people"
-             "equally irrespective of their gender. </p>", unsafe_allow_html=True)
+    st.write("<p style='font-size:18px'>The first visualization here reiterates the fact that Males and Females have been infected "
+             "equally through the course of the pandemic. Hence, from this observation we can conclude that the  <b style='color:#900C3F'>Coronavirus has affected people "
+             "equally irrespective of their gender</b>. </p>", unsafe_allow_html=True)
     st.write("<p style='font-size:18px'>By sliding a small window through time and observing the chart at the bottom, "
-             "we can see that initially the elderly have a higher number of cases and with time, we see that the younger 20-29 age groups"
-             "are starting to contract the infection more. This could be attributed to the fact that the elderly were more likely to"
-             "contract the virus initially, but they were the first ones"
-             "to get vaccinated and hence they gained improved protection prior to the rest of the population. "
-             "So this could be a reason why the number of cases for the elderly starts to drop and the younger population started to"
+             "we can see that  <b style='color:#900C3F'>initially the elderly</b> have a higher number of cases and with time, we see that the younger 20-29 age groups"
+             "are starting to contract the infection more. This could be attributed to the fact that the elderly were more likely to "
+             "contract the virus initially, but they were the  <b style='color:#900C3F'>first ones "
+             "to get vaccinated </b>and hence they gained improved protection prior to the rest of the population. "
+             "So this could be a reason why the number of cases for the elderly starts to drop and the younger population started to "
              "fall sick at later times</p>", unsafe_allow_html=True)
 
     st.write(
-        "<p style='font-size:18px'>We now have some idea about how the number of cases varied with time and how Coronavirus affected across genders"
+        "<p style='font-size:18px'>We now have some idea about how the number of cases varied with time and how Coronavirus affected across genders "
         "and age groups. So how does the US compare to another country in the world? Have they also seen similar trends "
         "as the US? Let's find out!</p>", unsafe_allow_html=True)
 
@@ -488,7 +488,7 @@ def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
 
     st.write("<p style='font-size:18px'> Now that we have seen how the trend has varied in time, "
              "we might now want to know whether COVID affects a particular category of people more than others? "
-             "Is there any difference in number of cases across gender and age-group?</p>", unsafe_allow_html=True)
+             "Is there any difference in number of cases across <b style='color:#900C3F'>gender </b> and  <b style='color:#900C3F'>age-groups </b>?</p>", unsafe_allow_html=True)
 
     return cases_usa_chart
 
@@ -508,9 +508,9 @@ def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_new
 
     st.header("How does the US compare to New Zealand?")
     st.write(
-        "<p style='font-size:18px'>Shown below is an interesting visualization called the streamgraph that is telling us how the percentage of "
+        "<p style='font-size:18px'>Shown below is an interesting visualization called the  <b style='color:#900C3F'>streamgraph </b>that is telling us how the percentage of "
         "mobility of the population for day-to-day activities varied with respect to a baseline which was pre-covid. This "
-        "will give us an idea of the patterns of movement of the citizens of the US and New Zealand. NZ was in the "
+        "will give us an idea of the  <b style='color:#900C3F'>patterns of movement of the citizens </b>of the US and New Zealand. NZ was in the "
         "news for containing the virus very well and had strict restrictions in place. Let us see if the data"
         " has the same story to tell!</p>", unsafe_allow_html=True)
 
@@ -524,9 +524,9 @@ def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_new
         mobility_vis(df_mobility_newzealand)
 
     st.write(
-        "<p style='font-size:18px'>The mobility changes are very different for each of the countries! It is evident that the citizens of the US "
-        "have not changed any of their movement patterns through the pandemic. However, the New Zealanders appears to have"
-        " sharply reduced their activity during a few months which could point to those months when they had strict lockdowns</p>",
+        "<p style='font-size:18px'>The mobility changes are very different for each of the countries! It is evident that the citizens of the  <b style='color:#900C3F'>US "
+        "have not changed </b> any of their movement patterns through the pandemic. However, the New Zealanders appears to have"
+        "  <b style='color:#900C3F'> sharply reduced</b> their activity during a few months which could point to those months when they had strict lockdowns</p>",
     unsafe_allow_html=True)
     st.write(
         "<p style='font-size:18px'>So was the NZ then under severe impact of Covid that they required strict measures? How did their cases compare to "
@@ -544,10 +544,10 @@ def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_new
         st.write(cases_nz_chart)
 
     st.write(
-        "<p style='font-size:18px'>Well, it is clear from these graphs that the NZ had very few cases but they must have adopted very strict "
+        "<p style='font-size:18px'>Well, it is clear from these graphs that the NZ had very few cases but they must have  <b style='color:#900C3F'>adopted very strict</b> "
         "measures because of which we see a significant change in movements of it's citizens. This shows us how "
-        "two countries approach a situation they face in very different ways! There May(not)be a [few lessons for all "
-        "countries to learn ](https://www.theregreview.org/2020/06/09/parker-lessons-new-zealand-covid-19-success/)"
+        "two countries approach a situation they face in very different ways! There May(not)be a <a href = 'https://www.theregreview.org/2020/06/09/parker-lessons-new-zealand-covid-19-success/'> few lessons for all "
+        "countries to learn</a> "
         "to deal with a future pandemic?</p>", unsafe_allow_html=True)
 
     st.write(
@@ -562,9 +562,9 @@ def cor_vis(cor_data):
     st.header("Is there any correlation between Weather and COVID? ")
 
     st.write(
-        "<p style='font-size:18px'>Seen below is a correlation plot to investigate the dependence between multiple variables at the same time."
-        "We are mainly interested in seeing whether the number of covid cases has any dependence on any of the weather"
-        "parameters such as temperature, rainfall, humidity?</p>", unsafe_allow_html=True)
+        "<p style='font-size:18px'>Seen below is a correlation plot to investigate the <b style='color:#900C3F'>dependence </b> between multiple variables at the same time. "
+        "We are mainly interested in seeing whether the number of covid cases has any dependence on any of the weather "
+        "parameters such as <b style='color:#900C3F'>temperature</b>, <b style='color:#900C3F'>rainfall</b>, <b style='color:#900C3F'>humidity</b>?</p>", unsafe_allow_html=True)
 
     base = alt.Chart(cor_data).encode(
         x='Parameter 1:O',
@@ -597,11 +597,11 @@ def cor_vis(cor_data):
 
     with col1_2:
         st.write(
-            "<p style='font-size:18px'>We can see from the matrix that there appears to be no significant correlation between the number of cases"
+            "<p style='font-size:18px'>We can see from the matrix that there appears to be <b style='color:#900C3F'>no significant correlation </b>between the number of cases"
             " and any of the weather parameters.</p>", unsafe_allow_html=True)
         st.write("<p style='font-size:18px'>However there does seem to be a slight trend from the daily cases graph that "
-            "tells us that during the months of November - February, there seems to be a spike. This is probably due the holiday "
-            "season and people tend to celebrate and take part in festivities which could result in more infections. </p>", unsafe_allow_html=True)
+            "tells us that during the months of <b style='color:#900C3F'>November - February</b>, there seems to be a spike. This is probably due the <b style='color:#900C3F'>holiday "
+            "season</b> and people tend to celebrate and take part in festivities which could result in more infections. </p>", unsafe_allow_html=True)
 
     return
 
@@ -616,13 +616,13 @@ def init_text():
 
     st.header("About the Coronavirus disease (COVID-19)")
     st.markdown("<p style='font-size:18px'>The <a href = 'https://en.wikipedia.org/wiki/COVID-19_pandemic'>COVID-19 pandemic</a>, also known as the coronavirus pandemic,\
-                 is an ongoing global pandemic of coronavirus disease 2019 (COVID-19) \
+                 is an ongoing <b style='color:#900C3F'>global pandemic </b>of coronavirus disease 2019 (COVID-19) \
                  caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). \
                  The novel virus was first identified  in the Chinese city of\
                  Wuhan in December 2019 and further spread to almost all parts of the globe.\
-                 The World Health Organization (WHO) declared it a Public Health \
-                 Emergency of International Concern on 30 January 2020 and labelled it a pandemic on 11 March 2020. \
-                 As of 20 February 2022, the COVID-19 pandemic had caused more than 423 million cases and 5.88 million deaths,\
+                 The World Health Organization (WHO) declared it a <b style='color:#900C3F'>Public Health \
+                 Emergency</b> of International Concern on 30 January 2020 and labelled it a pandemic on 11 March 2020. \
+                 As of 20 February 2022, the COVID-19 pandemic had caused more than <b style='color:#900C3F'>423 million</b> cases and <b style='color:#900C3F'>5.88</b> million deaths,\
                  making it one of the deadliest in history. The disease is highly transmissible , mainly transmitted via the respiratory route when \
                  people inhale droplets and small airborne particles (that form an aerosol) that infected people exhale as \
                  they breathe, talk, cough, sneeze, or sing. Over the past two years, mutations of the virus have produced many strains (variants) \
@@ -668,10 +668,10 @@ if __name__ =="__main__":
     cor_data = get_cor_data(df_cases)
     cor_vis(cor_data)
 
-    st.write("<p style='font-size:18px'>Through this dashboard we were able to get an idea of how the pandemic has spread across the world and "
+    st.write("<p style='font-size:18px'>Through this dashboard we were able to get an idea of how the Coronavirus has <b style='color:#900C3F'>spread </b>across the world and "
              "what the trend has been in the United States. We hope we were able to convey some interesting "
              "insights about the trends of the Coronavirus! There is still a lot of interesting things that can be explored "
-             "with this data. Happy Visualizing!</p> ", unsafe_allow_html=True)
+             "with this data. <br><br><b style='color:#900C3F'>Happy Visualizing!</b></p> <br><br>", unsafe_allow_html=True)
 
     st.markdown(
         "This project was created by [Bharani Ujjaini Kempaiah](buk@andrew.cmu.edu) and [Ruben John Mampilli](rmampill@andrew.cmu.edu)\
