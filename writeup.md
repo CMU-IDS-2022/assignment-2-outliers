@@ -56,12 +56,12 @@ used to interpret the change in trend of mobility of the people of the country</
 </ul></p>
 
 <p>
-Another dimension that we wanted to touch upon was how parameters of weather influenced the number of cases
+Another dimension that we wanted to touch upon was whether the parameters of weather influenced the number of cases
 <ul>
 <li>We used a correlation matrix to demonstrate the dependence between variables such as rainfall, temperature et. with 
 the number of cases </li>
-</ul>
-</p>
+</ul></p>
+
 Finally, a question we had in mind was whether the condition of the weather affects the covid rises. Because the user might notice
 that the 3 peaks seen occur usually during the cooler seasons. So we tried to analyze if there existed any correlation to the user. 
 
