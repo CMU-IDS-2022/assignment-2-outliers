@@ -49,13 +49,36 @@ Finally, a question we had in mind was whether the condition of the weather affe
 that the 3 peaks seen occur usually during the cooler seasons. So we tried to analyze if there existed any correlation to the user. 
 
 
-Did you notice in the second visualization? It seems that the covid cases increases in the months of October-Janunary?
+Page content - Did you notice in the second visualization? It seems that the covid cases increases in the months of October-Janunary?
 Does it spread more in cooler temperature? Let's check the correlation between some weather parameters and the cases!
-
+Page content - We know that different governments impose varying levels of containment measuers such as lockdowns. 
+lets now see how the US govt approached it and compare it with how the NZ govt appraoched this
 ## Development
 
 TODO: **An overview of your development process.** Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?
 
+First, we had an hour long discussion to choose the domain of the data and appropriate questions we wanted to answer from datasets in these domains.
+We then divide the task of dataset selection by having one team member look at COVID datasets and another at weather datasets.
+Each one of use analyzed the data present in the datasets we could find and perform some data statistics and exlporatory analysis to explore the feasablity and quality of the datasets in order to answer the identified questions and also look at the possibility of identifying new questions
+This took around 3 hrs per person. 
+Next, we discussed our findings and chose the COVID-19 dataset (include name) as the ideal dataset to answer our questions
+We next identified 5 visualizations to address the 5 questions.
+We split the visualizations between the two team members and coded them separately.
+This took around 10 hours in total to make. More than half of this time was mostly spent on the Map visualization as altair did not have a very good map interface.
+Since the range of covid cases was very big, deciding the size of the circles also took time as we needed to get representative and comaparable sizes while ensuring that they arent so big due to scale imbalance that one country eclipsed the entire continent!
+After this we worked on writing some textual descriptions and content to engage the user.
+Then we worked on alignment and providing a nice aesthetic to the dashboard which took another 3 hrs.
+In total, we spent around 16 hrs per person for this assignment over the past month. 
+
 ## Success Story
 
 TODO:  **A success story of your project.** Describe an insight or discovery you gain with your application that relates to the goals of your project.
+
+It was interesting to see that the cases peaked around Winter time the past two years. So
+we wanted to investigate if weather affected it so plotted a correlation plot.
+Upon plotting we found no significant correlation. We then realised that it must be a spurious(some other word is there)
+correlation. The cases must have actually increased due to Christmas and holidays rather than the temperature aspect.
+So it showed us how it is important to not just jump to conclusions and verify the result as best as possible before reporting it.
+
+We also saw the possible effect of vaccinations as even though cases increased by a large amount , the deaths remained around the same level.
+But in order to actually find if it was the vaccinations or maybe characterestic of the mutation of teh COVID19 virus that behaved differently from the earlier ones need to be explored before we can again conclude the efficacy of vaccinations
