@@ -69,13 +69,13 @@ identify appropriate questions we wanted to answer from datasets in these domain
 exlporatory analysis to explore the feasibility and quality of the datasets in being able to provide insights regarding the 
 questions we posed and also looked into the possibility of identifying new questions. This took around 3 hrs per person. </li>
 <li>Next, we discussed our findings and chose the <a href = 'https://goo.gle/covid-19-open-data'>Google health COVID-19 Open Dataset </a>. </li>
-<li>We split the work in terms of the visualizations between the two team members and worked on them separately for around 10 hours in total</li>
+<li>We split the work in terms of the visualizations between the two team members and worked on them separately for around 6 hours in total</li>
 <li>The map visualization consumed a major chunk of our time since Altair does not have very good support for geographic map visualizations.
 The range of covid cases was very large. Thus, deciding the range for the size of the circles also took time as we needed to get a representative and comparable size while ensuring that they aren't very huge
 due to scale imbalance that the circle correpsonding to one country would eclipse the entire continent!</li>
 <li>Next we worked on weaving a story through the visualizations by writing textual content to engage the user.</li>
 <li>We then worked on finalising the alignment and adding a nice aesthetic to the dashboard.
-In total, we spent around 16 hrs per person for this assignment over the past month. </li>
+In total, we spent around 10 hrs per person for this assignment over the past month. </li>
 </ul>
 
 
