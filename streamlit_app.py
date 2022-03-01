@@ -583,7 +583,9 @@ def cor_vis(cor_data):
     with col1_2:
         st.write(
             "We can see from the matrix above that there appears to be no significant correlation between the number of cases"
-            " and any of the weather parameters.")
+            " and any of the weather parameters. However there does seem to be a slight trend from the daily cases graph that "
+            "tells us that during the months of November - February, there seems to be a spike. This is probably due the holiday "
+            "season and people tend to celebrate and take part in festivities which could result in more infections. ")
 
     return
 

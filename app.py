@@ -92,7 +92,15 @@ def read_files_mobility(df):
 
     df_mobility = df[["date", "mobility_retail_and_recreation", "mobility_grocery_and_pharmacy", "mobility_parks",
                       "mobility_transit_stations", "mobility_workplaces", "mobility_residential"]]
-    df_mobility = df_mobility.melt("date", var_name='Mobility Type', value_name='Percentage change')
+    df_mobility = df_mobility.rename(columns={"date": "Date", "mobility_retail_and_recreation": "Retail",
+                                              "mobility_grocery_and_pharmacy": "Grocery",
+                                              "mobility_parks": "Parks",
+                                              "mobility_transit_stations": "Stations",
+                                              "mobility_workplaces": "Workplaces",
+                                              "mobility_residential": "Residential"})
+
+    df_mobility = df_mobility.melt("Date", var_name='Mobility Type', value_name='Percentage change')
+
 
     return df_mobility
 
@@ -130,6 +138,31 @@ def get_df_usa(df_cases):
     df_death_hospitalized_usa = df_death_hospitalized_usa.melt("Date", var_name='Parameter', value_name='Count')
 
     return df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa
+
+@st.cache
+def read_nz_cases():
+    df_cases_newzealand = pd.read_csv("data/NZ.csv")
+    df_cases_newzealand['date'] = df_cases_newzealand['date'].map(lambda row: datetime.strptime(row, '%Y-%m-%d').date())
+
+    df_cases_newzealand_daily = df_cases_newzealand[["date", "new_confirmed"]]
+    df_cases_newzealand_daily.rename(columns={"date": "Date", "new_confirmed": "Number of cases"},
+                                     inplace=True)
+
+    return df_cases_newzealand, df_cases_newzealand_daily
+
+@st.cache
+def get_cor_data(df_cases):
+    df_correlation = df_cases[["new_confirmed", "average_temperature_celsius", "rainfall_mm", "relative_humidity"]]
+    df_correlation.rename(columns={"date": "Date", "new_confirmed": "Cases",
+                                   "average_temperature_celsius": "Temperature",
+                                   "rainfall_mm": "Rainfall", "relative_humidity": "Humidity"}, inplace=True)
+    cor_data = (df_correlation
+                .corr().stack()
+                .reset_index()  # The stacking results in an index on the correlation values, we need the index as normal columns for Altair
+                .rename(columns={0: 'correlation', 'level_0': 'Parameter 1', 'level_1': 'Parameter 2'}))
+    cor_data['correlation_label'] = cor_data['correlation'].map('{:.2f}'.format)  # Round to 2 decimal
+
+    return cor_data
 
 def timestamp(t):
   return pd.to_datetime(t).timestamp() * 1000
@@ -196,8 +229,6 @@ def globe_vis(location_df, countries):
 
 def multiselect_vis(df):
 
-    # TO DO -- MAYBE PUT SOME LINES IN ANOTHER CHART? FIX LEGEND
-    # convert to date object
 
     st.header(
         'How have the number of daily covid cases/ deaths/ testing rate/ hospitalization rate and vaccintaion rate varied in the US?')
@@ -214,8 +245,8 @@ def multiselect_vis(df):
     plot_data["Name"] = plot_data["parameter"].map(lambda x: x)
 
     plot = alt.Chart(plot_data).mark_line().encode(
-        x='date:T',
-        y='count:Q',
+        x=alt.X('date:T', title="Date"),
+        y=alt.Y('count:Q', title="Count"),
         color=alt.Color('parameter:N', scale=alt.Scale(
             domain=["Daily confirmed", "Daily deceased", "Daily tested", "Daily hospitalized",
                     "Daily vaccinated"],
@@ -227,18 +258,25 @@ def multiselect_vis(df):
     )
     st.altair_chart(plot)
 
-    st.write("The trend in daily cases indicates that the US has been seeing a continuous presence of covid infection"
-             "Additionally, it appears that there have been 3 major spikes in covid cases:"
-             " October 2020 - February 2021, July 2021 - October 2021 and December 2021 - February 2022"
-             "So how has the increase in number of cases affected the number of daily deaths in the US?"
+    st.write("You can play around with the above chart and compare the trends of different parameters!")
+
+    st.write("The trend in daily cases indicates that the US has been seeing a continuous presence of covid infection. "
+             "Additionally, it can be seen that there have been 3 major spikes in covid cases: "
+             "October 2020 - February 2021, July 2021 - October 2021 and December 2021 - February 2022. "
+             "So how has the increase in number of cases affected the number of daily deaths in the US? "
              "While the scale of the deaths is much lower compared to daily cases, we can still "
-             "see similar spike patterns in death as the daily cases. This indicates that the "
-             "3 periods that are present could indicate periods of appearance of new variants that are more"
-             "infectious and dangerous than the earlier ones. A point to note is that"
-             "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any"
-             "singnificant increase. This further strengthens the point that vaccinations has helped in preventing serious"
-             "illness and death due to COVID-19 Coronavirus. Now that we have seen how the trend has varied in time, "
-             "we might now want to know whether there is any difference in number of cases across gender and age-group?")
+             "see similar spike patterns in death as the daily cases. This indicates that these "
+             "3 periods that are present could represent  periods of appearance of new variants namely the Alpha, Delta and "
+             "Omicron. It can be seen that Omicron (3rd wave) is highly infectious as the number of cases soared. A point to note is that "
+             "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any "
+             "singnificant increase. The number of Hospitalizations has increased, however not in proportion to the increase in cases. "
+             "At the same time, from the vaccination graph we see that a large number of individuals were vaccinated before this period. "
+             "Therefore the fact that the death rate has not increased and in fact has gone down if you consider number_of_deaths/number_of_cases "
+             "can be attributed to the argument that vaccinations have helped in preventing serious "
+             "illness and therefore prevented hospitalizations and death due to COVID-19.")
+
+    st.write("The individual bar charts have also been plotted below to remove the scale imbalance between the features "
+             "to get a better understanding of these features")
 
     return
 
@@ -277,8 +315,6 @@ def pie_radix(df):
         radius=alt.Radius("Cases", scale=alt.Scale(type="sqrt", zero=True, rangeMin=20)),
         color="Age group:N",
         tooltip=["Age group:N", "Cases:Q"]
-    ).properties(
-        width=500
     )
 
     radix_chart = base.mark_arc(innerRadius=20, stroke="#fff")
@@ -294,13 +330,12 @@ def pie_radix(df):
 
     radix_slice.write("The radix chart tells us that young adults of age 20-29 experienced the most number of cases, "
                       "alongside the middle aged adults of 30-60. "
-        "The elderly and children have been comparitively less affected. However, it is worth noting that there have been"
-        "cases of children under 10 years of age also testing positive.")
+                      "The elderly and children have been comparitively less affected. However, it is worth noting that there have been"
+                      "cases of children under 10 years of age also testing positive.")
     radix_slice.write("\n")
     st.write("Now, it might be interesting to see whether through"
-        " the course of the two years there have been certain periods during which there is a change in the distribution of cases"
+             " the course of the two years there have been certain periods during which there is a change in the distribution of cases"
              "across Age Groups. ")
-
     return
 
 def gender_age_connected_vis(scatter_plot_data, bar_char_data):
@@ -331,9 +366,8 @@ def gender_age_connected_vis(scatter_plot_data, bar_char_data):
             x="New Cases:Q",
             color=alt.Color("Age Group:N"),
             y="Age Group:N",
-        ).transform_filter(brush).interactive(
-
-        ).properties(
+            tooltip=alt.Tooltip(["New Cases", "Age Group"])
+        ).transform_filter(brush).properties(
             height=200,
             width=1000
         )
@@ -359,39 +393,26 @@ def gender_age_connected_vis(scatter_plot_data, bar_char_data):
              "So this could be a reason why the number of cases for the elderly starts to drop and the younger population started to"
              "fall sick at later times")
 
-    st.write("We now have some idea about how the number of cases varied with time and how Coronavirus affected across genders"
-             "and age groups. So how does the US compare to another country in the world? Have they also seen similar trends "
-             "as the US? Let's find out!")
+    st.write(
+        "We now have some idea about how the number of cases varied with time and how Coronavirus affected across genders"
+        "and age groups. So how does the US compare to another country in the world? Have they also seen similar trends "
+        "as the US? Let's find out!")
 
     return
 
-def economy_vis(df_economy):
-
-    # TO DO --- FIND ANOTHER ECONOMY PARAMETER; FIX LEGEND
-    economy_chart = alt.Chart(df_economy).mark_line().encode(
-        x='Date',
-        y='Value',
-        color='parameter',
-        strokeDash='parameter',
-    ).properties(
-        width=1000
-    )
-    st.write(economy_chart)
-
-    return
 
 def mobility_vis(df_mobility):
 
-
     # TO DO -- WHAT DOES IT IMPLY? FIX LEGEND
     mobility_chart = alt.Chart(df_mobility).mark_area().encode(
-        alt.X('date:T',
+        alt.X('Date:T',
               axis=alt.Axis(format='%m-%Y', domain=False, tickSize=0)
               ),
         alt.Y('sum(Percentage change):Q', stack='center', axis=None),
         alt.Color('Mobility Type:N',
                   scale=alt.Scale(scheme='category10')
-                  )
+                  ),
+        alt.Tooltip(["Mobility Type", "Date"])
     ).properties(
         width=600
     ).interactive()
@@ -401,35 +422,158 @@ def mobility_vis(df_mobility):
 
 def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
 
-    vaccination_usa_chart = alt.Chart(df_vaccination_usa).mark_line().encode(
+    vaccination_usa_chart = alt.Chart(df_vaccination_usa).mark_line(color='green').encode(
         x='Date',
-        y='Number of vaccinated individuals'
+        y='Number of vaccinated individuals',
+        tooltip=alt.Tooltip(["Number of vaccinated individuals", "Date"])
     ).interactive().properties(
-        width=1000,
-        height=400
+        width=600
     )
-    st.write(vaccination_usa_chart)
 
-    cases_usa_chart = alt.Chart(df_cases_usa).mark_line().encode(
+    cases_usa_chart = alt.Chart(df_cases_usa).mark_line(color='brown').encode(
         x='Date',
-        y='Number of cases'
+        y='Number of cases',
+        tooltip=alt.Tooltip(["Number of cases", "Date"])
     ).interactive().properties(
-        width=1000,
-        height=400
+        width=600
     )
-    st.write(cases_usa_chart)
 
     deaths_hospitalization_chart = alt.Chart(df_death_hospitalized_usa).mark_line().encode(
         x='Date',
         y='Count',
+        tooltip=alt.Tooltip(["Parameter", "Count", "Date"]),
         color='Parameter',
-        strokeDash='Parameter',
+        strokeDash='Parameter'
     ).interactive().properties(
-        width=1000,
-        height=400
+        width=800
     )
-    st.write(deaths_hospitalization_chart)
+
+    col1_1, col1_2 = st.columns(2)
+    with col1_1:
+        st.header("Vaccinations")
+        st.write(vaccination_usa_chart)
+
+    with col1_2:
+        st.header("Cases")
+        st.write(cases_usa_chart)
+
+    _, col_head, _ = st.columns([1, 2, 1])
+    with col_head:
+        st.header("Deaths & Hospitalizations")
+
+    _, col, _ = st.columns([1,2,1])
+    with col:
+        st.write(deaths_hospitalization_chart)
+
+    st.write("Now that we have seen how the trend has varied in time, "
+             "we might now want to know whether COVID affects a particular category of people more than others? "
+             "Is there any difference in number of cases across gender and age-group?")
+
     return cases_usa_chart
+
+def nz_cases_vis(df_cases_newzealand_daily):
+    cases_nz_chart = alt.Chart(df_cases_newzealand_daily).mark_line().encode(
+        x='Date',
+        y='Number of cases',
+        tooltip=alt.Tooltip(["Number of cases", "Date"])
+    ).interactive().properties(
+        width=600
+    )
+
+    return cases_nz_chart
+
+def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_newzealand):
+
+    st.header("How does the US compare to New Zealand?")
+    st.write(
+        "Shown below is an interesting visualization called the streamgraph that is telling us how the percentage of "
+        "mobility of the population for day-to-day activities varied with respect to a baseline which was pre-covid. This "
+        "will give us an idea of the patterns of movement of the citizens of the US and New Zealand. NZ was in the "
+        "news for containing the virus very well and had strict restrictions in place. Let us see if the data"
+        " has the same story to tell!")
+
+    col1_1, col1_2 = st.columns(2)
+    with col1_1:
+        st.header("Mobility in US")
+        mobility_vis(df_mobility_usa)
+
+    with col1_2:
+        st.header("Mobility in New Zealand")
+        mobility_vis(df_mobility_newzealand)
+
+    st.write(
+        "The mobility changes are very different for each of the countries! It is evident that the citizens of the US "
+        "have not changed any of their movement patterns through the pandemic. However, the New Zealanders appears to have"
+        " sharply reduced their activity during a few months which could point to those months when they had strict lockdowns")
+    st.write(
+        "So was the NZ then under severe impact of Covid that they required strict measures? How did their cases compare to "
+        "that of the US?")
+
+
+    col2_1, col2_2 = st.columns(2)
+
+    with col2_1:
+        st.header("Cases in US")
+        st.write(cases_usa_chart)
+
+    with col2_2:
+        st.header("Cases in New Zealand")
+        st.write(cases_nz_chart)
+
+    st.write(
+        "Well, it is clear from these graphs that the NZ had very few cases but they must have adopted very strict "
+        "measures because of which we see a significant change in movements of it's citizens. This shows us how "
+        "two countries approach a situation they face in very different ways! There May(not)be a [few lessons for all "
+        "countries to learn ](https://www.theregreview.org/2020/06/09/parker-lessons-new-zealand-covid-19-success/)"
+        "to deal with a future pandemic?")
+
+    st.write(
+        "Well we now have a good idea of how the Coronavirus spread across the US and how the citizens of the country reacted to it. ")
+    st.write("So what aggrevates the spread of the infection in the US?")
+    st.write("Let's find out if weather does!")
+
+    return
+
+def cor_vis(cor_data):
+
+    st.header("Is there any correlation between Weather and COVID? ")
+
+    st.write(
+        "Seen below is a correlation plot to investigate the dependence between multiple variables at the same time."
+        "We are mainly interested in seeing whether the number of covid cases has any dependence on any of the weather"
+        "parameters such as temperature, rainfall, humidity?")
+
+    base = alt.Chart(cor_data).encode(
+        x='Parameter 1:O',
+        y='Parameter 2:O'
+    ).properties(
+        width=500,
+        height=500
+    )
+
+    # Text layer with correlation labels
+    # Colors are for easier readability
+    text = base.mark_text().encode(
+        text='correlation_label',
+        color=alt.condition(
+            alt.datum.correlation > 0.5,
+            alt.value('white'),
+            alt.value('black')
+        )
+    )
+
+    # The correlation heatmap itself
+    cor_plot = base.mark_rect().encode(
+        color='correlation:Q'
+    )
+
+    st.write(cor_plot + text)  # The '+' means overlaying the text and rect layer
+
+    st.write(
+        "We can see from the matrix above that there appears to be no significant correlation between the number of cases"
+        " and any of the weather parameters.")
+
+    return
 
 def init_text():
     data_url = "https://goo.gle/covid-19-open-data"
@@ -483,110 +627,38 @@ if __name__ =="__main__":
     scatter_plot_data, bar_chart_data = read_gender_age_files(df_cases)
     gender_age_connected_vis(scatter_plot_data, bar_chart_data)
 
-    # Plot mobility data streamgraph usa
-    df_mobility_usa = read_files_mobility(df_cases)
+    df_cases_newzealand, df_cases_newzealand_daily = read_nz_cases()
 
-    # Plot mobility data streamgraph NZ
-    df_cases_newzealand = pd.read_csv("data/NZ.csv")
-    df_cases_newzealand['date'] = df_cases_newzealand['date'].map(lambda row: datetime.strptime(row, '%Y-%m-%d').date())
+    # Plot mobility data streamgraph usa and NZ
+    df_mobility_usa = read_files_mobility(df_cases)
     df_mobility_newzealand = read_files_mobility(df_cases_newzealand)
 
+    cases_nz_chart = nz_cases_vis(df_cases_newzealand_daily)
+    nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_newzealand)
 
-
-    df_cases_newzealand_daily = df_cases_newzealand[["date", "new_confirmed"]]
-    df_cases_newzealand_daily.rename(columns={"date": "Date", "new_confirmed": "Number of cases"},
-                        inplace=True)
-    cases_nz_chart = alt.Chart(df_cases_newzealand_daily).mark_line().encode(
-        x='Date',
-        y='Number of cases'
-    )
-
-    st.header("How does the US compare to New Zealand?")
-    st.write("Shown below is an interesting visualization called the streamgraph that is telling us how the percentage of "
-             "mobility of the population for day-to-day activities varied with respect to a baseline which was pre-covid. This "
-             "will give us an idea of the patterns of movement of the citizens of the US and New Zealand. NZ was in the "
-             "news for containing the virus very well and had strict restrictions in place. Let us see if the data"
-             " has the same story to tell!")
-    col1_1, col1_2 = st.columns(2)
-    with col1_1:
-        st.header("US mobility")
-        mobility_vis(df_mobility_usa)
-
-    with col1_2:
-        st.header("NZ mobility")
-        mobility_vis(df_mobility_newzealand)
-
-    st.write("The mobility changes are very different for each of the countries! It is evident that the citizens of the US "
-             "have not changed any of their movement patterns through the pandemic. However, the New Zealanders appears to have"
-             " sharply reduced their activity during a few months which could point to those months when they had strict lockdowns")
-    st.write("So was the NZ then under severe impact of Covid that they required strict measures? How did their cases compare to "
-             "that of the US?")
-    col2_1, col2_2 = st.columns(2)
-
-    with col2_1:
-        st.header("US cases")
-        st.write(cases_usa_chart)
-
-    with col2_2:
-        st.header("NZ cases")
-        st.write(cases_nz_chart)
-
-    st.write("Well, it is clear from these graphs that the NZ had very few cases but they must have adopted very strict "
-             "measures because of which we see a significant change in movements of it's citizens. This shows us how "
-             "two countries approach a situation they face in very different ways! There May(not)be a [few lessons for all "
-             "countries to learn ](https://www.theregreview.org/2020/06/09/parker-lessons-new-zealand-covid-19-success/)"
-             "to deal with a future pandemic?")
-
-    st.write("Well we now have a good idea of how the Coronavirus spread across the US and how the citizens of the country reacted to it. ")
-    st.write("So what aggrevates the spread of the infection in the US?")
-    st.write("Let's find out if weather does!")
-
-    st.header("Does Covid spread more when the weather get's cooler?")
-    st.write("Seen below is a correlation plot to investigate the dependence between multiple variables at the same time."
-             "We are mainly interested in seeing whether the number of covid cases has any dependence on any of the weather"
-             "parameters such as temperature, rainfall, humidity?")
     # Correlation plot
-    df_correlation = df_cases[["new_confirmed", "average_temperature_celsius", "rainfall_mm", "relative_humidity"]]
-    df_correlation.rename(columns={"date": "Date", "new_confirmed": "Cases",
-                                              "average_temperature_celsius": "Temperature",
-                                   "rainfall_mm": "Rainfall", "relative_humidity": "Humidity"}, inplace=True)
-    cor_data = (df_correlation
-                .corr().stack()
-                .reset_index()  # The stacking results in an index on the correlation values, we need the index as normal columns for Altair
-                .rename(columns={0: 'correlation', 'level_0': 'Parameter 1', 'level_1': 'Parameter 2'}))
-    cor_data['correlation_label'] = cor_data['correlation'].map('{:.2f}'.format)  # Round to 2 decimal
-    base = alt.Chart(cor_data).encode(
-        x='Parameter 1:O',
-        y='Parameter 2:O'
-    ).properties(
-        width=500,
-        height=500
-    )
+    cor_data = get_cor_data(df_cases)
+    cor_vis(cor_data)
 
-    # Text layer with correlation labels
-    # Colors are for easier readability
-    text = base.mark_text().encode(
-        text='correlation_label',
-        color=alt.condition(
-            alt.datum.correlation > 0.5,
-            alt.value('white'),
-            alt.value('black')
-        )
-    )
-
-    # The correlation heatmap itself
-    cor_plot = base.mark_rect().encode(
-        color='correlation:Q'
-    )
-
-    st.write(cor_plot + text)  # The '+' means overlaying the text and rect layer
-
-    st.write("We can see from the matrix above that there appears to be no significant correlation between the number of cases"
-             " and any of the weather parameters.")
+    st.markdown(
+        "This project was created by [Bharani Ujjaini Kempaiah](buk@andrew.cmu.edu) and [Ruben John Mampilli](rmampill@andrew.cmu.edu)\
+         for the [Interactive Data Science](https://dig.cmu.edu/ids2022) course at\
+          [Carnegie Mellon University](https://www.cmu.edu).")
 
 
+# TO DO
+'''
+1) Conclusion
+2) Bar gender - Fix Y axis
+3) Different fonts for sliders
+4) Plot titles verify
+5) Make background grid for line graphs
+6) Plot titles for pie chart
+7) Move corr plot to center
+8) Percentage change in mobility, change heading
+9) Writeup.md
 
-
+'''
 
 
 
