@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_icon=":shark:")
 import pandas as pd
 import altair as alt
 from vega_datasets import data
@@ -169,8 +169,9 @@ def timestamp(t):
 
 def globe_vis(location_df, countries):
 
+    st.write("")
     st.write(
-        " First, to give us some context, let us look at how the COVID-19 disease has spread in various countries across time.")
+        " First, to give us some context, let us look at how the COVID-19 disease has spread in various countries across time!")
     st.header('How has the number of covid cases varied across the world in the past two years?')
 
 
@@ -214,15 +215,17 @@ def globe_vis(location_df, countries):
     st.altair_chart(glob_plot, use_container_width=True)
 
     st.write(
-        "The map above gives us insight into how the number of covid cases has changed in the span of 2 years across the countries of the world."
-        " We see from the graph that within the span of the first 3 months, the infection has spread to almost all countries of the world. "
-        "This shows how quickly the COVID-19 disease can spreads from one location to another. "
-        "There is an almost exponential increase in the number of cases as months progressed. "
-        "Overall, we can see that countries that have reported the most number of cases include USA, India, Brazil, France, UK, Russia, Germany and Turkey. "
-        "We can also see that it is of a fluctuating nature in which there are periods in which  cases sharply increase and then reduce. "
-        "An interesting observation is to note how once a country gets infected with COVID-19, it does not go away! "
-        "It is evident that the past couple of months of December 2021 and January 2022 has seen a huge increase in the number of cases especially in the United States. ")
+        "The map above gives us insight into how the number of covid cases has changed in the span of 2 years across the countries of the world.")
 
+    '''
+    - We see from the graph that within the span of the first 3 months, the infection has spread to almost all countries of the world. This shows how quickly the COVID-19 disease can spreads from one location to another
+    - There is an almost exponential increase in the number of cases as months progressed
+    - Overall, we can see that countries that have reported the most number of cases include USA, India, Brazil, France, UK, Russia, Germany and Turkey
+    - We can also see that it is of a fluctuating nature in which there are periods in which  cases sharply increase and then reduce
+    - An interesting observation is to note how once a country gets infected with COVID-19, it does not go away!
+    - It is evident that the past couple of months of December 2021 and January 2022 has seen a huge increase in the number of cases especially in the United States
+    '''
+    st.write("")
     st.write("Now, since we have an idea of the overall trend, let's shift our focus to the United States and delve deeper into the trends of COVID-19 in the US.")
 
     return
@@ -259,21 +262,23 @@ def multiselect_vis(df):
     st.altair_chart(plot)
 
     st.write("You can play around with the above chart and compare the trends of different parameters!")
-
+    st.write("")
     st.write("The trend in daily cases indicates that the US has been seeing a continuous presence of covid infection. "
              "Additionally, it can be seen that there have been 3 major spikes in covid cases: "
-             "October 2020 - February 2021, July 2021 - October 2021 and December 2021 - February 2022. "
-             "So how has the increase in number of cases affected the number of daily deaths in the US? "
+             "October 2020 - February 2021, July 2021 - October 2021 and December 2021 - February 2022. ")
+    st.write("So how has the increase in number of cases affected the number of daily deaths in the US? "
              "While the scale of the deaths is much lower compared to daily cases, we can still "
              "see similar spike patterns in death as the daily cases. This indicates that these "
              "3 periods that are present could represent  periods of appearance of new variants namely the Alpha, Delta and "
-             "Omicron. It can be seen that Omicron (3rd wave) is highly infectious as the number of cases soared. A point to note is that "
+             "Omicron.")
+    st.write("It can be seen that Omicron (3rd wave) is highly infectious as the number of cases soared. A point to note is that "
              "though there has been almost a three times increase in cases in the last wave, the number of deceased has not seen any "
              "singnificant increase. The number of Hospitalizations has increased, however not in proportion to the increase in cases. "
              "At the same time, from the vaccination graph we see that a large number of individuals were vaccinated before this period. "
              "Therefore the fact that the death rate has not increased and in fact has gone down if you consider number_of_deaths/number_of_cases "
              "can be attributed to the argument that vaccinations have helped in preventing serious "
              "illness and therefore prevented hospitalizations and death due to COVID-19.")
+    st.write("")
 
     st.write("The individual bar charts have also been plotted below to remove the scale imbalance between the features "
              "to get a better understanding of these features")
@@ -595,7 +600,7 @@ def init_text():
     wikipedia_url = "https://en.wikipedia.org/wiki/COVID-19_pandemic"
 
     st.markdown(
-        "Through this dashboard we explore [The Google Health COVID-19 Open Data](%s) regarding the onset and the spread of the COVID-19 Coronavirus" % data_url)
+        "Through this dashboard we explore [The Google Health COVID-19 Open Data](%s) and try to study the onset and spread of the COVID-19 Coronavirus through interesting visualizations!" % data_url)
 
     st.header("About the Coronavirus disease (COVID-19)")
     st.markdown("The [COVID-19 pandemic](%s), also known as the coronavirus pandemic,\
@@ -609,16 +614,12 @@ def init_text():
                  making it one of the deadliest in history. The disease is highly transmissible , mainly transmitted via the respiratory route when \
                  people inhale droplets and small airborne particles (that form an aerosol) that infected people exhale as \
                  they breathe, talk, cough, sneeze, or sing. Over the past two years, mutations of the virus have produced many strains (variants) \
-                 with varying degrees of infectivity and virulence. The pandemic led to unprecedented lockdowns and movement \
-                 restrictions imposed by many countries. Educational institutions and public areas were partially \
-                  or fully closed in many jurisdictions, and many events were cancelled or postponed. \
-                  Misinformation circulated through social media and mass media, and political tensions intensified. \
-                  The pandemic raised issues of racial and geographic discrimination, health equity, and the balance between \
-                  public health imperatives and individual rights." % wikipedia_url)
+                 with varying degrees of infectivity and virulence leading to unprecedented lockdowns and movement \
+                 restrictions imposed by many countries." % wikipedia_url)
 
 if __name__ =="__main__":
 
-    st.title("COVID-19 Coronavirus Data Dashboard")
+    st.markdown("<h1><span style='color:#900C3F'>COVID-19</span> Coronavirus Data Dashboard</h1>", unsafe_allow_html=True)
 
     init_text()
 
@@ -656,8 +657,8 @@ if __name__ =="__main__":
     cor_vis(cor_data)
 
     st.write("Through this dashboard we were able to get an idea of how the pandemic has spread across the world and "
-             "what the trend has been in the United States. Through this dashboard we hope we were able to convey some interesting "
-             "insights about the trends of the Coronovirus. There is still a lot of interesting things that can be explored "
+             "what the trend has been in the United States. We hope we were able to convey some interesting "
+             "insights about the trends of the Coronovirus! There is still a lot of interesting things that can be explored "
              "with this data. Happy Visualizing! ")
 
     st.markdown(
