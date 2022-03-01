@@ -227,7 +227,7 @@ def globe_vis(location_df, countries):
              "<li style='font-size:18px'>Overall, we can see that the countries that have reported the most number of cases include <b style='color:#900C3F'>USA, India, Brazil, "
              "France, UK, Russia, Germany and Turkey </b></li>"
              "<li style='font-size:18px'> We can also see that it is of a <b style='color:#900C3F'>fluctuating </b> nature in which there are periods in which  cases sharply increase and then decreases</li>"
-             "<li style='font-size:18px'> An interesting observation is to note how once a country gets infected with COVID-19, it does not go away!</li>"
+             "<li style='font-size:18px'> An interesting observation is to note how once a country gets infected with COVID-19, it does not go away quickly!</li>"
              "<li style='font-size:18px'>It is evident that the past couple of months of December 2021 and January 2022 has seen a huge increase in the number of cases  </li>"
              " </ul>"
              "</p>", unsafe_allow_html=True)
@@ -619,7 +619,7 @@ def init_text():
 
     st.markdown(
         "<p style='font-size:18px'>Through this dashboard we explore <a href='https://goo.gle/covid-19-open-data'>"
-        "The Google Health COVID-19 Open Data</a> and try to study the onset and spread of the COVID-19 Coronavirus "
+        "The Google Health COVID-19 Open Data</a> and try to study the onset and spread of the COVID-19 Coronavirus in the United States "
         "through interesting visualizations!</p>", unsafe_allow_html=True)
 
     st.header("About the Coronavirus disease (COVID-19)")
