@@ -11,9 +11,9 @@ COVID-19 Coronavirus.
 ## Project Goals
 
 
-<p>The main goal of this dashboard is for the user to find out what was the <b>progression</b> and <b>nature</b>
-of the COVID-19 Coronavirus in the United States. The user can also gain insight into the 
-effect of the virus across the <b>demography</b> of the US and the effect of containment measures taken to prevent the spread of COVID-19. </p>
+<p>The main goal of this dashboard is to convey information regarding the <b>progression</b> and <b>nature</b>
+of the COVID-19 Coronavirus in the United States. The dashboard conveys interesting facts regarding the 
+effect of the virus across the <b>demography</b> of the US and the effect of containment measures taken to prevent the spread of the COVID-19 Coronavirus. </p>
 
 ## Design
 
