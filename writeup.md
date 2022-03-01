@@ -13,7 +13,7 @@ COVID-19 Coronavirus.
 
 <p>The main goal of this dashboard is for the user to find out what was the <b>progression</b> and <b>nature</b>
 of the COVID-19 Coronavirus in the United States. The user can also gain insight into the 
-effect of the virus across the <b>demography</b> of the US and the containment measures taken to prevent the spread of COVID-19. </p>
+effect of the virus across the <b>demography</b> of the US and the effect of containment measures taken to prevent the spread of COVID-19. </p>
 
 ## Design
 
@@ -29,9 +29,9 @@ a bar chart which would make it very condensed to understand.</p>
 terms of the variation in cases, vaccination, hospitalization and
 deaths in the US. 
 <ul>
+<li> We decided to have a multi select line chart and the user can choose which parameter(s) to visualize</li>
 <li>The viewer can compare them and gain insight into
 the nature of the disease as well as the effect of vaccinations</li>
-<li> We decided to have a multi select line chart and the user can choose which parameter(s) to visualize</li>
 <li>A static line chart to compare a few important lines was also made due to scale imbalance between the parameters. 
 This provided more flexibility to the user to explore.</li>
 </ul></p>
