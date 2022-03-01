@@ -11,6 +11,8 @@ Coronavirus.
 ## Project Goals
 
 TODO: **A clear description of the goals of your project.** Describe the question that you are enabling a user to answer. The question should be compelling and the solution should be focused on helping users achieve their goals. 
+The main goal of this dashboard is for the user to find out what was the progression ans nature
+of the COVID-19 Coronavirus. 
 
 ## Design
 
