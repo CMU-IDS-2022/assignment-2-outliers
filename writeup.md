@@ -2,7 +2,7 @@
 
 ![A screenshot of the dashboard](screenshot.png)
 
-This dashboard informs the user about the spread of the Coronavirus in the United States. Through the visualizations the viewer
+This dashboard informs the user about the spread of the <b>Coronavirus</b> in the <b>United States</b>. Through the visualizations the viewer
 can gain insight into various parameters such as the trend in cases, vaccination, hospitalizations and deaths. The dashboard also aids in 
 finding out whether the Coronavirus has affected Males more than Females and which Age groups are most affected. 
 Through this dashboard we aim to inform the user about the trends and spread of the 
@@ -11,31 +11,41 @@ COVID-19 Coronavirus.
 ## Project Goals
 
 TODO: **A clear description of the goals of your project.** Describe the question that you are enabling a user to answer. The question should be compelling and the solution should be focused on helping users achieve their goals. 
-The main goal of this dashboard is for the user to find out what was the progression and nature
+<p>The main goal of this dashboard is for the user to find out what was the <b>progression</b> and <b>nature</b>
 of the COVID-19 Coronavirus in the United States. The user can also gain insight into the 
-effect of the virus across the demography of the US and. 
+effect of the virus across the <b>demography</b> of the US and. </p>
 
 ## Design
 
 TODO: **A rationale for your design decisions.** How did you choose your particular visual encodings and interaction techniques? What alternatives did you consider and how did you arrive at your ultimate choices?
-We wanted to first give the user a broad overview wrt to how covid cases have changed in the world. 
-Show the viewer the progression of US wrt to the world. 
-For this we decided to use a map visualization which depicts the cases in the countries
-across time by sliding across time and the size of the point is scaled according to the case. 
-We did not want to provide exact numbers but only like a comparative study. 
+<p>We wanted to first give the user a high level perspective about the trend in COVID-19 cases across the countries of the world.
+<ul><li>We decided to use a map visualization which depicts the cases in the countries
+across time by a time slider </li>. 
+<li>Using area of the bubble to indicate the number of cases, it becomes easy for the viewer to perceive 
+the general trend</li></ul>
+Since the motive of this visualization was to give context and not exact numbers, it made sense to use a general estimate such as a bubble over having 
+a bar chart which would make it very noisy to understand.</p>
 
-With this context, we wanted viewer to focus on the US. 
-Wanted them to see cases as well as cases, vaccination, hospitalization, 
-deaths in the US. So the viewer can compare them and gain insight into
-the nature of the disease as well as the effect of vaccinations
-To do this we decided to have a multi select line chart and the user can choose what to see. 
-A static line chart to compare a fee import lines was also made due to scale imbalance between them. 
-This provided flexibility to the user to explore. 
+<p>With the understanding from the previous graph that the United States has experienced the highest number of cases, we now wanted to shift the viewer's focus onto the United States in 
+terms of the variation in cases, vaccination, hospitalization and
+deaths in the US. 
+<ul>
+<li>The viewer can compare them and gain insight into
+the nature of the disease as well as the effect of vaccinations</li>
+<li> We decided to have a multi select line chart and the user can choose which parameter(s) to visualize</li>
+<li>A static line chart to compare a fee import lines was also made due to scale imbalance between them. 
+This provided flexibility to the user to explore.</li>
+</ul>
+ </p>
 
-We wanted to look into how coid affected the demography of the US. Did it affect Males more than Females, 
-how it affected the various age groups in through time over the past two year. 
-To do this, we employed a pie chart showing the cumulative distribution and also employed an interactive multi-view coordination
-which connects the progression in cases across gender and age groups through time. 
+<p>With the insights gained from the earlier visualizations, we now wanted to look into how coid affected the demography of the US. 
+Did it affect Males more than Females?  <br>
+How did it affected the various age groups in through time over the past two years?<br>
+<ul>
+<li>We employed a pie chart showing the cumulative distribution </li>
+<li>An interactive multi-view coordination which connects the progression in cases across gender and age groups through time.</li> 
+</ul>
+</p>
 
 As we know that preventive measures were taken differently in countries at varying levels. Let's compare how the US did Vs NZ. 
 We wanted to show the effect of preventive/ containment measures such as lockdown in US. We thought it would be best to 
