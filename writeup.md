@@ -2,10 +2,10 @@
 
 ![A screenshot of the dashboard](screenshot.png)
 
-This dashboard informs the user about the spread of the <b> COVID-19 Coronavirus</b> in the <b>United States</b>. Through the visualizations the viewer
+This dashboard informs the user about the spread of the <b> COVID-19 Coronavirus</b> in the <b>United States</b>. Through the visualizations, the viewer
 can gain insight into various parameters such as the trend in cases, vaccination, hospitalizations and deaths. The dashboard also aids in 
-determining how COVID-19 has affected different demographics of the population and the containment measures taken to prevent it's spread. 
-Through this dashboard we aim to inform the user about the trends and spread of the 
+determining how COVID-19 has affected the demographics of the population and the effect of the containment measures taken to prevent it's spread. 
+Through this dashboard we aim to inform the user about the trends and the spread of the 
 COVID-19 Coronavirus. 
 
 ## Project Goals
