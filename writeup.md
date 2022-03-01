@@ -74,19 +74,22 @@ lets now see how the US govt approached it and compare it with how the NZ govt a
 
 TODO: **An overview of your development process.** Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?
 
-<p>
+
 First, we had an hour long discussion to choose the domain of the data and appropriate questions we wanted to answer from datasets in these domains.
-We then divide the task of dataset selection by trying to explore existing datasets and identify ones that interested us.
-Each one of use analyzed the data present in the datasets we could find and perform some data statistics and exlporatory analysis to explore the feasibility and quality of the datasets in order to answer the identified questions and also look at the possibility of identifying new questions
-This took around 3 hrs per person. 
-Next, we discussed our findings and chose the <a href = 'https://goo.gle/covid-19-open-data'>Google health COVID-19 Open Dataset </a>. 
-We split the visualizations between the two team members and coded them separately.
-This took around 10 hours in total to make. More than half of this time was mostly spent on the Map visualization as Altair did not have very good support for map interface.
-Since the range of covid cases was very big, deciding the size of the circles also took time as we needed to get representative and comparable sizes while ensuring that they aren't very huge
-due to scale imbalance that one country would eclipse the entire continent!
-After this we worked on writing some textual descriptions and content to engage the user.
-Then we worked on alignment and providing a nice aesthetic to the dashboard which took another 3 hrs.
-In total, we spent around 16 hrs per person for this assignment over the past month. 
+<ul>
+<li>We then divide the task of dataset selection by trying to explore existing datasets and identify ones that interested us.</li>
+<li>Each one of use analyzed the data present in the datasets we could find and perform some data statistics and exlporatory analysis to explore the feasibility and quality of the datasets in order to answer the identified questions and also look at the possibility of identifying new questions
+This took around 3 hrs per person. </li>
+<li></li>Next, we discussed our findings and chose the <a href = 'https://goo.gle/covid-19-open-data'>Google health COVID-19 Open Dataset </a>. </li>
+<li>We split the work in terms of the visualizations between the two team members and worked on them separately.
+This took around 10 hours in total to make.</li>
+<li>The map visualization consumed the major chunk of our time since Altair did not have very good support for map interface.
+Also because the range of covid cases was very big, deciding the size of the circles also took time as we needed to get representative and comparable sizes while ensuring that they aren't very huge
+due to scale imbalance that one country would eclipse the entire continent!</li>
+<li>Next we worked on weaving a story through the visualizations by writing textual content to engage the user.</li>
+<li>We then worked on finalising the alignment and adding a nice aesthetic to the dashboard.
+In total, we spent around 16 hrs per person for this assignment over the past month. </li>
+</ul>
 
 
 ## Success Story
