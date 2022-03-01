@@ -663,17 +663,7 @@ if __name__ =="__main__":
     st.markdown(
         "This project was created by [Bharani Ujjaini Kempaiah](buk@andrew.cmu.edu) and [Ruben John Mampilli](rmampill@andrew.cmu.edu)\
          for the [Interactive Data Science](https://dig.cmu.edu/ids2022) course at\
-          [Carnegie Mellon University](https://www.cmu.edu).")
-
-
-# TO DO
-'''
-1) Conclusion
-2) Bar gender - Fix Y axis
-3) Different fonts for sliders
-9) Writeup.md
-
-'''
+          [Carnegie Mellon University](https://www.cmu.edu)")
 
 
 
