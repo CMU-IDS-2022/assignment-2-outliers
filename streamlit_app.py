@@ -619,7 +619,7 @@ def init_text():
 
     st.markdown(
         "<p style='font-size:18px'>Through this dashboard we explore <a href='https://goo.gle/covid-19-open-data'>"
-        "The Google Health COVID-19 Open Data</a> and try to study the onset and spread of the COVID-19 Coronavirus "
+        "The Google Health COVID-19 Open Data</a> and try to study the onset and spread of the COVID-19 Coronavirus in the United States "
         "through interesting visualizations!</p>", unsafe_allow_html=True)
 
     st.header("About the Coronavirus disease (COVID-19)")
