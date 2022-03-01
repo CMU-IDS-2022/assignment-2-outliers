@@ -293,7 +293,8 @@ def pie_radix(df):
         color=alt.Color(field="Gender", type="nominal"),
         tooltip=["Gender", "Cases"]
     ).properties(
-        width=500
+        width=500,
+        title="COVID cases across Gender"
     )
     pie = base.mark_arc(outerRadius=120)
     text = base.mark_text(radius=150, size=15).encode(text="Gender:N")
@@ -315,6 +316,9 @@ def pie_radix(df):
         radius=alt.Radius("Cases", scale=alt.Scale(type="sqrt", zero=True, rangeMin=20)),
         color="Age group:N",
         tooltip=["Age group:N", "Cases:Q"]
+    ).properties(
+        width=500,
+        title="COVID cases across Age Group"
     )
 
     radix_chart = base.mark_arc(innerRadius=20, stroke="#fff")
@@ -354,7 +358,7 @@ def gender_age_connected_vis(scatter_plot_data, bar_char_data):
             tooltip=["Gender", "Date", "New Cases"],
             color=alt.condition(brush, "Gender:N", alt.value("lightgray")),
         ).add_selection(brush)
-    ).properties(title="Click and drag to create a selection region",
+    ).properties(title="Click and drag to create a selection region and move the region across left to right",
                  height=400,
                  width=1000
                  )
@@ -427,7 +431,8 @@ def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
         y='Number of vaccinated individuals',
         tooltip=alt.Tooltip(["Number of vaccinated individuals", "Date"])
     ).interactive().properties(
-        width=600
+        width=600,
+        title="COVID Vaccination in the US"
     )
 
     cases_usa_chart = alt.Chart(df_cases_usa).mark_line(color='brown').encode(
@@ -435,7 +440,8 @@ def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
         y='Number of cases',
         tooltip=alt.Tooltip(["Number of cases", "Date"])
     ).interactive().properties(
-        width=600
+        width=600,
+        title="COVID Cases in the US"
     )
 
     deaths_hospitalization_chart = alt.Chart(df_death_hospitalized_usa).mark_line().encode(
@@ -445,7 +451,8 @@ def plot_usa_line(df_vaccination_usa, df_cases_usa, df_death_hospitalized_usa):
         color='Parameter',
         strokeDash='Parameter'
     ).interactive().properties(
-        width=800
+        width=800,
+        title="Deaths and Hospitalizations due to COVID in the US"
     )
 
     col1_1, col1_2 = st.columns(2)
@@ -477,7 +484,8 @@ def nz_cases_vis(df_cases_newzealand_daily):
         y='Number of cases',
         tooltip=alt.Tooltip(["Number of cases", "Date"])
     ).interactive().properties(
-        width=600
+        width=600,
+        title="COVID cases in New Zealand"
     )
 
     return cases_nz_chart
@@ -494,11 +502,11 @@ def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_new
 
     col1_1, col1_2 = st.columns(2)
     with col1_1:
-        st.header("Mobility in US")
+        st.header("Change in Mobility in the US")
         mobility_vis(df_mobility_usa)
 
     with col1_2:
-        st.header("Mobility in New Zealand")
+        st.header("Change in Mobility in New Zealand")
         mobility_vis(df_mobility_newzealand)
 
     st.write(
@@ -513,7 +521,7 @@ def nz_usa_vis(cases_usa_chart, cases_nz_chart, df_mobility_usa, df_mobility_new
     col2_1, col2_2 = st.columns(2)
 
     with col2_1:
-        st.header("Cases in US")
+        st.header("Cases in the US")
         st.write(cases_usa_chart)
 
     with col2_2:
@@ -548,7 +556,8 @@ def cor_vis(cor_data):
         y='Parameter 2:O'
     ).properties(
         width=500,
-        height=500
+        height=500,
+        title="Correlation plot of COVID cases with Weather attributes"
     )
 
     # Text layer with correlation labels
@@ -567,11 +576,14 @@ def cor_vis(cor_data):
         color='correlation:Q'
     )
 
-    st.write(cor_plot + text)  # The '+' means overlaying the text and rect layer
+    col1_1, col1_2 = st.columns(2)
+    with col1_1:
+        st.write(cor_plot + text)  # The '+' means overlaying the text and rect layer
 
-    st.write(
-        "We can see from the matrix above that there appears to be no significant correlation between the number of cases"
-        " and any of the weather parameters.")
+    with col1_2:
+        st.write(
+            "We can see from the matrix above that there appears to be no significant correlation between the number of cases"
+            " and any of the weather parameters.")
 
     return
 
@@ -651,11 +663,6 @@ if __name__ =="__main__":
 1) Conclusion
 2) Bar gender - Fix Y axis
 3) Different fonts for sliders
-4) Plot titles verify
-5) Make background grid for line graphs
-6) Plot titles for pie chart
-7) Move corr plot to center
-8) Percentage change in mobility, change heading
 9) Writeup.md
 
 '''
