@@ -75,17 +75,17 @@ lets now see how the US govt approached it and compare it with how the NZ govt a
 TODO: **An overview of your development process.** Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?
 
 
-First, we had an hour long discussion to choose the domain of the data and appropriate questions we wanted to answer from datasets in these domains.
+The initially step we took was to have a discussion regarding our interests to choose the domain of the dataset and 
+identify appropriate questions we wanted to answer from datasets in these domains
 <ul>
-<li>We then divide the task of dataset selection by trying to explore existing datasets and identify ones that interested us.</li>
-<li>Each one of use analyzed the data present in the datasets we could find and perform some data statistics and 
-exlporatory analysis to explore the feasibility and quality of the datasets in order to answer the identified 
-questions and also look at the possibility of identifying new questions. This took around 3 hrs per person. </li>
+<li>We then divide the task of dataset selection by exploring existing datasets and shortlist a few that particularly interested us</li>
+<li>Each one of us analyzed a few datasets and performed some basic data wrangling and 
+exlporatory analysis to explore the feasibility and quality of the datasets in being able to provide insights regarding the 
+questions we posed and also looked into the possibility of identifying new questions. This took around 3 hrs per person. </li>
 <li>Next, we discussed our findings and chose the <a href = 'https://goo.gle/covid-19-open-data'>Google health COVID-19 Open Dataset </a>. </li>
-<li>We split the work in terms of the visualizations between the two team members and worked on them separately.
-This took around 10 hours in total to make.</li>
-<li>The map visualization consumed the major chunk of our time since Altair did not have very good support for map interface.
-Also because the range of covid cases was very big, deciding the size of the circles also took time as we needed to get representative and comparable sizes while ensuring that they aren't very huge
+<li>We split the work in terms of the visualizations between the two team members and worked on them separately for around 10 hours in total</li>
+<li>The map visualization consumed a major chunk of our time since Altair does not have very good support for geographic map visualizations.
+The range of covid cases was very large. Thus, deciding the range for the size of the circles also took time as we needed to get a representative and comparable size while ensuring that they aren't very huge
 due to scale imbalance that one country would eclipse the entire continent!</li>
 <li>Next we worked on weaving a story through the visualizations by writing textual content to engage the user.</li>
 <li>We then worked on finalising the alignment and adding a nice aesthetic to the dashboard.
@@ -97,11 +97,11 @@ In total, we spent around 16 hrs per person for this assignment over the past mo
 
 TODO:  **A success story of your project.** Describe an insight or discovery you gain with your application that relates to the goals of your project.
 
-It was interesting to see that the cases peaked around Winter time the past two years. So
-we wanted to investigate if weather affected it so plotted a correlation plot.
-Upon plotting we found no significant correlation. We then realised that it must be a spurious(some other word is there)
-correlation. The cases must have actually increased due to Christmas and holidays rather than the temperature aspect.
-So it showed us how it is important to not just jump to conclusions and verify the result as best as possible before reporting it.
-
-We also saw the possible effect of vaccinations as even though cases increased by a large amount , the deaths remained around the same level.
-But in order to actually find if it was the vaccinations or maybe characterestic of the mutation of teh COVID19 virus that behaved differently from the earlier ones need to be explored before we can again conclude the efficacy of vaccinations
+<p>Through the visualizations we were able to answer the questions we initially posed. A few interesting scenarios was that the 
+number of cases peaked around winter time the past two years. To investigate this further we plotted a correlation plot to study the influence of weather parameters.
+However, there seemed to be no significant correlation. We then realised that there must be some confounding variable that is causing this behavior. 
+We then concluded that the cases must have actually increased due to Christmas and the holiday season rather than the temperature aspect.
+This showed us how important it is to not just jump to conclusions and verify the result to the best of our abilities before reporting it.
+Through the visualizations we were also able to see the possible effect of vaccinations because even though the number of cases increased by a large amount, the number of deaths remained around the same level.
+But in order to ascertain if it was the vaccinations? or whether the characteristics of the mutation of the COVID19 virus that behaved differently 
+from the earlier ones needs to be explored before we can concretely establish the efficacy of vaccinations</p>
